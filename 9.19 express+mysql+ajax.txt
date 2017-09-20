@@ -1,0 +1,152 @@
+	9.19 express+mysql+ajax
+	
+	一、路由
+		1》单个路由
+			直接定义在服务器对象上
+			var app=express('express');
+			app.get(url,callback(req,resp){}); 接收 get 请求 
+			app.post(url,callback(req,resp){}); 接收 post 请求 
+			app.delete(url,callback(req,resp){}); 接收 delete 请求 
+			app.put(url,callback(req,resp){}); 接收 put 请求 
+			app.all(url,callback(req,resp){}); 接收所有类型的请求 
+			*req:获取请求信息的对象，
+			resp：回应请求信息的对象
+			next：用于调用下一个路由
+		
+		2》路由中间件
+			在路由中间件对象上定义子路由。
+			var app=express('express');//依赖的模块
+			var userRoute = express.Router (); //创建路由中间件对象 
+			userRoute.get(callback(){}); //定义中间件 
+			userRoute.post(callback(){}); 
+			userRoute.delete(callback(){}); 
+			userRoute.put(callback(){}); 
+			app.use("/user",userRoute); 使用中间件 
+		
+		3》参数获取
+			1>get请求中的参数获取
+				app.get("/login",function(req,resp){ 
+					var obj = url.parse(req.url);
+					var params = querystring.parse(obj.query);
+					resp.write(JSON.stringify(req.query));
+					resp.end(); 
+				}); 
+			
+			2>post请求中的参数获取
+				app.post("/login",function(req,resp){ 
+					var buff = new Buffer(0); 
+					req.on("data",function(data){ buff += data; });
+					req.on("end",function(){ 
+						var params = querystring.parse(buff.toString()); 
+						resp.send(JSON.stringify(params));
+					});
+				});
+		
+		4》回应请求
+			resp.send([body]); //发送 http 请求，body 可以为流，字符串，对象，或者数组 
+			res.json([body]) 与 send 方法参数相同，可以将其他类型参数转换为 json 
+			resp.jsonp([body]) 发送一个支持jsonp的json格式的响应。
+			resp.end([data][encoding]) 结束响应进程
+			resp.redirect(path):重定向
+			
+		5》静态文件托管
+			将静态资源文件所在的目录作为参数传递给
+			express.static中间件就可以提供静态资源文件的访问了.
+			app.use(express.static('public'))；
+		
+			
+	二、express脚手架
+		通过应用生成器工具express可快速创建一个应用的骨架
+		
+		1》安装：
+			$ npm install express-generator –g 
+	
+		2》生成项目
+			在某个文件夹下 express myapp ，就创建了一个myapp的文件夹
+		3》安装所有依赖
+			cd myapp
+			npm install
+		
+		4》启动项目
+			npm run start
+			后台文件更新时需要重启启动项目（后台文件在myapp/routes文件夹下）
+			前端文件更新不需重新启动项目（前端文件在myapp/publish文件夹下）
+		
+		5》开始写代码
+		
+		6》在routes创建一个studentsRoutes.js （db是数据库查询的模块）
+			用于托管静态文件目录的子文件路径
+			在该文件中引入数据库的student查询模块
+			创建路由：login  findAll路径，显示students的信息
+			
+		7》在app.js中
+		
+			引用模块studentsRoutes
+				var studentsRouter=require('./routes/studentsRouter');
+			
+			创建托管静态文件的目录
+				app.use('/students', studentsRouter);
+			
+		8》在publish创建HTML文件用于显示后台传输的数据
+			用ajax异步处理来显示
+			
+			
+	三、ajax	---Asynchronous JavaScript + XML
+		是多个技术的一个组合，
+		
+		使用 ajax 可以更方便更快捷的进行页面的局部更新，
+		Ajax 使用 XMLHttpRequest 对象与服务器进行交互，
+		它能够发送和接受多种形式的数据格 式（例如 json,xml,html,text ）。
+		所谓异步即不需要更新整个页面就可以与服务器 交换数据，更新局部页面。
+		
+		1》基本应用（不考虑ie6）
+			1>获取XMLHttpRequest();
+				var httpRequest = new  XMLHttpRequest(); 
+				
+			2>监听就绪状态的改变
+				httpRequest.onreadystatechange = function(){
+					// Process the server response here 
+				}; 
+				
+				httpRequest.open('GET', 'http://www.example.org/some.file', true); 
+				httpRequest.send(data);
+				
+			3>处理响应信息
+				httpRequest.onreadystatechange = function(){ 
+					if (httpRequest.readyState === XMLHttpRequest.DONE) {//就绪状态判断 0 1 2 3 4 
+						// Everything is good, the response was received. 
+					} else { // Not ready yet. }
+					
+				**readyState就绪状态码 ：
+					0：uninitialized / request not initialized) 
+					1：正在加载 / server connection established
+					2：已经加载完毕 / request received
+					3： (interactive) or (processing request)
+					4：完成 / request finished and response is ready
+			
+			4>处理响应信息
+			
+				if (httpRequest.status === 200) { // Perfect! } //在就绪状态中判断
+				else {
+					// There was a problem with the request. 
+					// For example, the response may have a 404 (Not Found) // or 500 (Internal Server Error) response code. 
+				} 
+		
+			5>获取参数
+				 httpRequest.responseText 返回字符串信息 
+				 
+				  httpRequest.responseXML 返回 xml 对象信息
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

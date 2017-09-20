@@ -1,0 +1,181 @@
+1、创建对象：
+	1》使用构造函数创建
+		new Object()
+		var person=new Object();
+		person.name="lisa";
+		person.age=20;
+	2》使用对象字面量表示法
+		不同属性用逗号分隔，属性名与属性值之间用冒号：隔开。
+		var person={
+			name:"lisa",
+			age:20
+		}
+2、获取/访问 对象属性
+	1》点表示法
+		右侧必须是以属性名称命名的简单标识符
+		使用 对象名.属性名
+		person.name
+	2》中括号表示法
+		中括号必须是一个计算结果为字符串的表达式，
+		可以通过变量访问属性，如果属性名中包含语法错误的字符，
+		或者属性名使用的是关键字或保留字，可以使用中括号；
+		对象名["属性名"]
+		person["name"]
+3、删除对象属性
+	delete object.属性
+		delete只是断开了属性和宿主兑现的联系，
+		而不会操作属性中的属性，
+		并且delete只会删除自有属性，不能删除继承属性。
+		在销毁对象时，为了防止内存泄漏，遍历对象中的属性，一次删除所有属性
+		内存空间还保留name的位置
+	delete person.name
+4、检查属性
+	1》in
+		检查某属性是否是某对象的自有属性或者继承属性
+		“toString” in student
+	2》hasOwnproperty（）
+		检测给定的属性是否是对象的自有属性，继承属性返回false
+			console.log(obj.hasOwnProperty("name"))
+	3》propertylsEnumberable（）
+		检查给定的属性是否是对象的自有属性，并且该属性是可枚举的，
+		通常由js代码创建的属性都是可枚举的，
+		但是可以使用特殊的方法改变可枚举性。
+			student.propertylsEnumberable("toString");//false不可枚举
+	
+5	Object常用方法：
+	object类型所具有的任何属性和方法也同样存在于其他对象中，任何对象继承于object对象。
+		1》construtor：保存用户创建当前对象的函数，有助于确定给定对象的类型。
+		2》hasOwnproperty（propertyName）：检查给定的属性名是否是对象的自有属性；
+											是继承属性则返回false。
+		3》toString()：返回对象的字符串表示[object Object]；
+						
+		7》toLocalString():返回对象的字符串表示，返回的结果与toString()方法返回的完全相同，
+							该字符串与执行环境的地区对应；
+							object类的子类可能定义自己的toLocalString()方法。
+		4》valueOf()：返回对象的字符串，数值，布尔值的表示
+		5》propertyIsEnumberable（propertyname）：检查给定的属性在当前对象实例中是否存在
+		6》isPropertyOf(object):检查传入的对象是否是原型
+		
+	
+6	对象序列化：
+		指将对象的状态转为字符串；
+		也可以反序列化，将字符串还原为对象函数；
+		RegExp，Error对象，undefined值不能序列化和反序列化；
+		
+		JSON.stringify(object):将对象序列化为Json字符串，只能序列化对象可枚举的自有属性
+		JSON.parse（jsonStr）：反序列化
+		
+7、函数function
+	函数实际是对象（js中一切皆对象），
+	函数名实际是指向函数的指针。
+	1》函数表达式
+		var say=function（）{
+			alert（）；//匿名函数
+		}
+	2》函数声明
+		function 函数名(){
+		//函数声明
+		}
+	3》两种声明区别
+		js中，var声明的变量先进行解析，直到遇到赋值语句再进行赋值
+		函数声明会优先加载解析
+			即解析器在执行环境中加载数据时，会率先读取函数声明，并且在执行任何代码之前可用；
+			当执行器执行到函数表达式的代码的时候才会真正的解析执行。
+		函数声明优先解析--->var声明的变量
+		
+	4》参数
+		实参
+		形参
+		不介意传递参数的个数以及参数类型，
+		因为函数的参数在函数内容是使用一个类数组对象来表示的。
+		实参的个数与形参的个数没有关系
+		
+		function add(a,b){//形参}
+		add（1,2）；//实参
+		add（1,2,3）//形参个数与实参个数不一致，这时只取前面两个 即与函数对应的参数个数的前几个实参
+
+		
+8、函数内部属性
+	js中，函数没有重载的概念，两个函数的函数名相同即同样是一个函数，但java不是。
+	1》arguments：
+		类数组对象
+		包含传入函数中的参数和索引；
+		即指向实参。
+	   arguments.length:参数（实参）长度
+	   
+	   栗子：
+		   function add(a,b){
+				console.log(arguments);//{ 0: 1, 1: 2, 2: 3, 等 2 项… }
+				console.log(arguments.length);//3 实参的长度
+				console.log(arguments.callee.length);//2 形参的长度
+			}
+			add(1,2,3);//{ 0: 1, 1: 2, 2: 3, 等 2 项… }
+			console.log(add.length);//2
+			console.log(add);//2
+			console.log(add);//function add()
+								
+								
+			  
+	2》callee
+		指向拥有这个arguments对象的函数，即声明的函数
+	函数属性和方法：	
+		1》length
+			表示函数希望接收的命名参数的个数，即形参的个数
+		2》apply():
+			可以调用当前函数，并可以指定其执行环境对象
+			只有两个参数（window/对象/this，[参数列表]）
+			函数名.apply(window/对象/this).方法跟call类似
+			
+		3》call()：可以调用当前对象，并可以指定其执行环境对象。
+					即设置函数内部的this的值。
+			通过参数来确定其执行性环境：
+			没有指定时，默认是window环境；
+			函数名.call（）：指向window环境；
+			函数名.call(this,参数列表)：当前作用域的环境;
+			函数名.call(window,参数列表)：指定当前环境指向window；
+			函数名.call(对象，参数列表):指定当前环境指向对象。
+		
+9、函数可以作为返回值来使用
+		function add（a，b）{
+			return function（）{
+				console.log(a+b);
+			}
+		}
+基本数据类型：值传递
+引用数据类型：引用地址的传递
+		
+10、递归
+	 // 递归10！
+	 1》
+        function digui(e){
+            if(e<2){return 1;}
+            return e*digui(e-1);
+        }
+        var r=digui(5);
+        console.log(r);//120
+	2》建议使用 arguments.callee ,callee指向的是当前声明的函数
+		function digui(e){
+            if(e<2){return 1;}
+            return e*arguments.callee(e-1);
+        }
+        var r=digui(5);
+        console.log(r);//120
+        
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	

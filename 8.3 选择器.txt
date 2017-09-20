@@ -1,0 +1,110 @@
+﻿1、a标签
+	a:link 链接默认的样式
+	a:visited  已访问过的链接的样式
+	a:hover 鼠标滑过链接时的样式
+	a:active鼠标点击链接时触发的样式
+	
+二、选择器
+	1 类选择器
+	2 id 选择器
+	3 普遍选择器
+	4 层次选择器
+	5 多选择器
+	6 属性选择器
+	7 伪类选择器
+	8 伪元素选择器
+	
+	1 类选择器
+		.class{}
+	2 id 选择器
+		#id{}
+	3 普遍选择器
+		*{}
+	4 层次选择器
+		(1)后代选择器：空格隔开两个选择器；包含子元素、孙元素
+			ul li{}
+			
+		(2)子代选择器：>隔开两个选择器；直接元素，不包含孙元素
+			ul>li{}
+		(3)相邻同胞选择器：+隔开两个选择器；直接兄弟元素
+			#id p+p{} 表示id内两个直接相邻的p元素之间
+		(4)一般同胞选择器：~隔开两个选择器；所有兄弟元素
+			#id p~p{} 表示id内所有的p元素
+	5 多选择器：逗号，分隔开两个选择器
+		div，p，li{}
+		
+		组合选择器：多个选择器组合使用
+			div.one clas为one的div元素
+			
+	6 属性选择器
+		（1）[attrinbute] ：选择具有attribute属性的元素，无论该属性是啥
+				[target]:选择所有带有target的属性元素
+				
+		（2）[attrinbute=value] ：选择具有attribute属性、且值为value的元素
+				[target=_blank]:选择所有使用target=_blank属性的元素
+		
+		（3）[attrinbute~=value] ：选择具有attribute属性且值之一为value的元素
+								 （多个值使用需逗号分开）
+				[title~=flower]:选择标题属性包含单词flower的所有元素
+				
+		（4）[attrinbute^=value] ：选择具有attribute属性且值是以value开头的元素
+				a[src^="https"]:每个src属性的值以https开头的元素
+		
+		（5）[attrinbute$=value] ：选择具有attribute属性且值以value结尾的元素
+				a[src$=".pdf"]：每个src属性的值以pdf'结尾的元素
+		
+		（6）[attrinbute*=value]：选择觉有attribute属性且值包含value的元素
+				a[src*="runoob"]：每个src属性的值包含子字符串"runoob"的元素
+		（7）[attrinbute|=language]：
+				[lang|=en]：选择一个lang属性的起始值="EN"的所有元素
+	7 伪类选择器：用在选择器之后，指明元素在某种状态下才能被选中
+		（1）表示子元素：
+				:only-child 选择每个元素是其父级元素的唯一元素
+				:first-child 选择指定元素是其父级元素的第一个子级
+				:last-child  选择每个元素是其父级元素的最后一个子级
+				:nth-child（n） 选择每个元素是其父级的第n个子元素
+				:nth-last-child(n) 选择每个元素是其父级的倒数第n个子元素，
+				
+				:first-of-type 选择每个元素是其父级的第一个元素
+				:last-of-type  选择每个元素是其父级的最后一个元素
+				:nth-of-type(n) 选择每个元素是其父级的第n个元素
+				:nth-last-of-type(n)选择每个元素是其父级的倒数第n个元素
+				
+				:not(p) 非p的元素
+				
+				div：first-child 当前元素的第一个元素
+					：last-child 当前选中元素中的最后一个元素
+					：only-child 当前元素只有一个孩子节点（子元素）
+					：nth-child（n） 选择第n个当期元素
+					n 整数值
+					odd 奇数
+					even 偶数
+					:nth-last-child(2) 倒数第二个
+					：first-of-type 
+					p：first-of-type 选择所有p元素且是第一个标签是p的元素
+
+		（2）元素状态相关
+			：hover
+			：active
+			：focus
+			：enabed 启用的元素
+			：disabled 禁用的元素
+			：checked 被选中的元素
+			：default 默认
+			：invalid  于匹配输入值为非法的元素
+			：valid  用于匹配输入值为合法的元素
+			：required  用于匹配设置了 "required" 属性的元素
+			：optional  匹配可选的输入元素
+			：in-range 匹配在指定区间之间的input元素
+			：out-of-range 匹配值在指定区间之外的input元素
+			: visited
+	8 伪元素选择器：用在选择器之后，用于选择指定的元素
+		::after 在元素之后插入内容
+		::before
+		::first-letter 选择每个元素的第一个字母
+		::first-line  选择每个元素的第一行
+		::selection  匹配元素中被用户选中或者处于高亮状态的部分
+		::backdrop
+	
+
+

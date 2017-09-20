@@ -1,0 +1,266 @@
+﻿一、字体样式
+	1 color 文本颜色
+	2 font-family 文字字体
+	3 font-size  文字大小
+	4 font-style  用于打开和关闭斜体文本
+	5 font-weight 字体粗细设置
+	6 text-transform  设置、取消字体的改变
+	7 text-decoration 设置或者取消文本修饰
+	8 text-shadow  文本阴影	
+	
+	1 color 
+	取值：关键字
+		十六进制
+		RGB
+		rgba
+		hsl
+		hsla
+		
+			
+	2 font-family常见字体
+		serif 有衬线的字体
+		sans-serif 无衬线的字体
+		monospace 等宽字体 用于代码
+		cursive 草书
+		fantasy 装饰文字
+	
+	  字体栈：一次性设置多个字体，两个字体间用逗号隔开，第一个显示无效则显示下一个，以此类推
+	
+	4 font-style 斜体
+		取值：normal
+			  italic 斜体
+			  oblique 模拟斜体
+	
+	5 font-weight
+		取值： none
+				bold 加粗
+				lighter 比父元素更细
+				bolder 比父元素更粗
+				100-900 值越大字体越粗
+	
+	6 text-transform 转换字体
+		取值：none
+				uppercase 将文本转换为大写
+				lowercase 将文本转换为小写
+				capitalize 将所有单词第一个字母转换为大写
+				full-width 转换为类似于一个等宽字体
+	
+	7 text-decoration 文字划线修饰
+		取值： none 取消所有文本修饰
+				underline 添加下划线
+				overline  添加上划线
+				line-through  添加删除线
+	
+	8 text-shadow 文本阴影
+		text-shadow： x距离 y距离 模糊距离 阴影扩展距离（可不填） 颜色取值
+
+二、列表样式
+	1 list-style  列表项的速记
+	2 list-style-type 列表项标志类型
+	3 list-style-position 列表项标志出现的位置
+	4 list-style-image  自定义设置列表项标志
+	5 line-height 设置列表的行高
+	
+	1 list-style  列表项的速记
+		取值： type image position
+	
+	2 list-style-type 列表项标志类型
+	   取值：none 取消所有标志类型样式
+			 disc 实心圆 默认样式
+			 circle 空心圆
+			 square 实心正方形
+			 decimal  1开始的数字 ，ol有序列表默认的列表项标志
+			 decimal-leading-zero 以0开头的数字
+			 lower-roman 小写罗马数字
+			 upper-roman 大写罗马数字
+			 lower-alpha 小写英文字母
+			 upper-alpha 大写英文字母
+			 lower-greek 小写希腊
+			 lower-latin 小写拉丁
+			 upper-latin 大写拉丁
+	
+	3 list-style-position 列表项标志出现的位置
+		取值： outside 列表项标志出现在主块框的外部
+				inside 列表项标志出现在主块框的内部
+	
+	4 list-style-image  自定义设置列表项标志
+		list-style-image ：url（）；
+	
+	5 line-height 设置列表的行高 
+		属性值为父元素的高度值 文本垂直居中
+
+三、文本样式
+	链接默认样式：
+	1 cursor 光标炫悬浮到链接上时光标的形状
+	2 outline 调整环绕链接的框
+	3 text-decoration 子安定义设置列表项标志
+	4 text-align 文本对齐方式
+	
+	1 cursor 光标炫悬浮到链接上时光标的形状
+		取值：pointer
+			  help
+			  default
+			  wait 
+			  text
+			  
+	2 outline 调整环绕链接的框
+		取值； width type color
+				width 轮廓粗细：thin medium thick length
+				type可取值：solid dashed dotted thick
+		outline-offset：轮廓与容器的偏移值，可为负值，负值是在容器内显示轮廓		
+	3 text-decoration 自定义设置列表项标志
+		
+	4 text-align 文本对齐方式
+
+三、盒子
+	1 默认盒子模型
+		使用box-sizing属性可以改变盒子模型
+		取值content-box的盒子默认为盒子模型
+	2 边框盒子模型
+		Width=width+padding-left+padding-right+border-left+border-right
+		context-box-width=width-padding-left-padding-right-border-left-border-right-border-left-border-right
+	3 盒子背景样式
+		（1）background 背景设置的速记方法
+		（2）background-color 背景颜色
+		（3）background-image  为元素设置背景图片
+		（4）background-clip 设定背景的覆盖范围， 在哪里显示
+		（5）background-origin 设定背景的起始点， 在哪里开始绘制 结合position
+		（6）background-position 设置背景图像初始位置，相对于background-origin定义的位置
+		（7）background-repeat  设置背景图片的重复方式
+		（80background-attachment 设置背景图片的固定点
+		（9）background-size  设置背景的大小尺寸
+		
+		（1）background 背景设置的速记方法
+			取值：attachment clip color image position repeat
+			
+		（2）background-color 背景颜色
+				与文字color取值一样的格式
+		
+		（3）background-image  为元素设置背景图片
+				取值：url（）
+				双重背景：background-image：url（images/xx.png），（images/xx.png）；
+		
+		（4）background-clip 设定背景的覆盖范围 ，在哪里显示
+			取值：border-box 背景位于边框以内，从边框外边缘开始的范围开始进行显示
+				  padding-box 背景位于边框内边距以内，从内边距的外边缘开始进行显示
+				  content-box 背景位于内容区内，从内边距的内边缘开始进行显示
+		
+		（5）background-origin 设定背景的起始点，从哪里开始绘制
+			border-box 背景图片从边框的外边缘开始绘制
+			padding-box 背景图片从内边距的外边缘开始绘制
+			content-box 背景图片绘制在内容区
+	
+		（6）background-position 设置背景图像初始位置
+			取值:关键字 
+					left：与origin一起使用时，从容器的左边开始绘制图片，
+						  对于超出容器的图片进行切割
+					right
+					top
+					bottom
+				 坐标 从坐标点开始绘制
+		
+		（7）background-repeat  设置背景图片的重复方式
+			取值：repeat 为了覆盖整个背景范围，背景尽可能多的重复，在背景边缘切割最后一个
+				  repeat-x x轴方向进行重复
+				  repeat-y y轴方向进行重复
+				  space 使用空白分隔图片，尽可能使背景图片占满整个屏幕而不切割
+				  round 将图片压缩或者扩展以适应整个背景范围，不使用切割
+				  no-repeat 不重复
+				  
+		（8）background-attachment 设置背景图片的固定点
+			取值：fixed 背景固定在视口，不随滚动条滚动而滚动
+			      scroll 默认，背景固定在自身元素上
+				  local 背景固定在自身元素的内容上，随滚动条滚动而滚动
+				  
+		（9）background-size  设置背景的大小尺寸
+			取值：cover： 背景铺满整个屏幕 以图片最短部分为拉伸对象
+				  contain ：宽度拉伸 以图片最长部分拉伸
+				  像素：
+				  百分比： 
+
+	4 盒子边框样式
+			1 border 速记手法
+			2 border-width 为元素指定边框宽度
+			3 border-style 为元素指定边框样式
+			4 border-color 为元素指定边框颜色
+			5 border-radius 为元素设置圆角边框的半径
+			6 border-image 为元素设置边框背景
+			
+			1 border 速记手法
+				
+			
+			2 border-width 为元素指定边框宽度
+				取值：关键字：think、medium、thick
+					  单位：px em
+			
+			3 border-style 为元素指定边框样式
+				取值：none ：不设置，取消所有的盒子边框样式
+					  solid：显示单一的实心直线
+					  dashed：显示虚线
+					  dotted：显示圆点
+					  double：显示两条实心直线
+					  hidden：隐藏
+					  groove：边框雕刻效果（与ridge相反）
+					  ridge：与groove相反
+					  inset：嵌入式边界框（与outset相反）
+					  outset：突出的边界框
+					  		
+			4 border-color 为元素指定边框颜色
+				颜色取值与文本color样式一样
+			
+			5 border-radius 为元素设置圆角边框的半径
+				取值：绝对值：px、mm、cm、in
+					  相对值：em、rem
+				
+			6 border-image 为元素设置边框背景
+				速记手法：border-image：source slice background-repeat
+							background-source：url()
+							slice取值是背景图片宽度的三分之一，因为一张图是分割为9个部分，四个交点的位置作为固定点
+							     用于是设置边框四条边显示的宽度，可以为1/2/3/4个值
+							background-repeat取值： stretch 拉伸
+													round重复自适应
+													repeat 重复切割
+													space 重复自适应
+						
+四、表格样式
+		1 table-layout 指定显示表格的盒子，行、列的算法
+		2 border-collapse 指定表格的边框是合并还是分开
+		3 caption-side 设置表格的caption坐落在表格的哪个位置
+		4 colgroup 表格列的分组
+		5 其他样式
+		
+		1 table-layout 指定显示表格的盒子，行、列的算法
+			取值：auto：默认值。table和cell的宽度取决于包含在其中的内容
+				  fixed：table的宽度以及列的宽度取决于表格的第一行各列设定的宽度
+		
+		2 border-collapse 指定表格的边框是合并还是分开
+			取值： collapse：合并模式，表示相邻的两个单元格共享边框
+							与cellspacing的区别时，cellspacing的单元格之间的边框会重叠，比较粗
+							
+		3 caption-side 设置表格的caption坐落在表格的哪个位置
+			取值：top： 标题位于表格上方
+				  bottom：表格下方
+				  
+		4 colgroup 表格列的分组，从左边第一列开始，
+			写法：<colgrounp span="" style=“”>
+					span表示列数
+					当使用多个colgrounp时 列数随之定位在上一个colgrounp的列数后
+		5 其他样式
+			cellpadding 内容与单元格之间的距离
+			cellspacing 单元格之间的距离
+			cellpadding与cellspacing都要与border属性一起配合使用
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

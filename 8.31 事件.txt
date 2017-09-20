@@ -1,0 +1,258 @@
+		
+		事件
+
+1、事件三要素
+	1》事件目标
+		发生的事件与之相关联的对象
+		
+		
+	2》事件处理函数
+		处理或相应事件的函数
+		即发生事件的函数
+		
+	3》事件对象
+		与特定事件相关且包含有关该事件详细信息的对象。
+		
+2、
+	网景公司：
+		LIVEScript
+		支持事件捕获：由外而内
+		
+	IE：
+		JScript
+		支持事件冒泡：由内而外
+
+3、DOM事件流(事件捕获)
+	DOM2级的事件流：
+	
+		1》事件捕获阶段----由外而内
+			document-->html-->body
+			
+		2》事件执行阶段
+			事件处理
+		
+		3》事件冒泡阶段----由内而外
+			div-->body-->html-->document
+			
+4、事件处理程序
+	用户或浏览器自身执行的某种动作---事件
+	响应某个事件的函数---------------事件处理程序
+	
+	1》HTML事件处理程序
+		某个元素支持的每种事件，
+		都可以使用一个与相应事件处理程序同名的HTML特性来指定，
+		这个特性值应该是能够执行的JavaScript代码。
+		
+		<input type="button" value="clickme" onclick="alert('is click')">
+		
+		<input type="button" value="clickme" onclick="showme()">
+		<script>
+			function showme(){alert("is click");}
+		</script>
+			
+	
+	2》DOM0级事件处理程序（函数）
+		
+		兼容性较好
+		简单，跨浏览器。
+		
+		事件处理程序是在元素的作用域进行，this指向当前元素
+		
+		1>获取元素
+		2>给元素绑定事件
+			on关键字
+			
+			
+		解绑：
+			div.onclick=null；	
+			
+			
+		栗子：
+			var div=document.getElementById('id');
+			div.onclick=function(event){}
+			
+			// DOM0级 onclick()
+			function handeler(){
+				 alert(this.id);
+			}
+			outer.onclick=handeler;
+			//不可绑定多个事件，绑定多个事件时，后绑定的时间覆盖前面设置的事件
+			//由内而外 冒泡，即点击里面也会弹出外面的，点击最外面则之弹出最外的不会弹出里面的
+			
+		
+		
+		
+		缺点：当绑定多个事件时，后绑定的事件会替换前绑定的事件。
+				不能给相同元素绑定相同类型的事件。
+	3》DOM2级事件处理程序（函数）
+		兼容性相对不好；
+		
+		可以绑定多个事件，事件执行顺序按照绑定事件的顺序执行。
+		
+		
+	4》其他浏览器（非IE浏览器）：
+			1>绑定事件：
+				div.addEventListener();
+					三个参数：
+						第一个参数：事件类型（如click）
+						第二个参数：事件处理程序（发生事件的函数）
+						第三个参数：Boolean值，代表是否存在捕获阶段开始执行
+									false：在冒泡阶段调用开始执行
+									true：在捕获阶段开始执行；（由外而内）
+						
+				栗子
+					function handler(){alert(this.id);}
+					inner.addEventListener("click",function(){alert("inner-1")});//可以绑定多个事件
+					
+				
+						
+			2>解除绑定：移除事件
+				div.removeEventListener();
+					两个参数：
+						第一参数：要删除的事件名，事件类型
+						第二参数：事件处理的函数，事件处理程序
+					
+					移除事件传入的参数与添加多个事件处理程序使用的参数相同，
+					添加事件时如果使用的匿名函数将无法删除。
+					
+					div.removeEventListener("click",handler);
+								
+	
+	5》IE浏览器：
+		IE不支持事件捕获
+		
+		绑定事件：
+			attachEvent():
+				两个参数：
+					第一参数：事件类型 on+type（如onclick） 
+					第二参数：事件处理程序
+		
+			div.attachEvent("onclick",handler);
+			
+			
+		解除绑定：	
+			detachEvent（）：
+				两个参数：
+					第一参数：事件类型 on+type
+					第二参数：事件处理程序
+					
+					
+	6》栗子，判断浏览器来进行哪种方法进行事件绑定
+			var eventUtil={
+			//绑定事件
+			bind:function(e,type,handler){
+				if(e.addEventListener){
+					e.addEventListener(type,handler);
+				}
+				else if(e.attachEvent){
+					e.attachEvent("on"+type,handler);
+				}
+				else{
+					e["on"+type]=handler;
+				}
+			},
+
+			//解绑
+			unbind:function(e,type,handler){
+				if(e.removeEventListener){
+					e.removeEventListener(type,handler);
+				}
+				else if(e.detachEvent){
+					e.detachEvent("on"+type,handler);
+				}
+				else{
+					e["on"+type]=null;
+				}
+			}
+
+		};
+	
+		eventUtil.bind(inner,"click",handler);
+		
+		
+6、事件对象
+
+	事件对象的属性均为只读属性
+	1》DOM中的事件对象
+		1》bubbles---boolean类型
+			事件是否冒泡；
+		
+		2》cancelable----boolean类型
+			是否可以取消事件默认行为
+		
+		3》currenTarget----Element类型
+			
+			事件处理程序当前正在处理事件的那个元素
+			
+		   this：当前目标
+		
+		4》eventPhase----Integer类型
+			调用事件处理程序阶段：1捕获、2处于目标、3 冒泡
+			
+		5》target----Element事件
+			时间真正的目标
+		
+		6》type----String类型
+			事件类型
+			需要一个函数，处理多个事件时，可使用该属性。
+			
+		7》preventDefault()----Function类型
+			取消事件的默认行为
+			
+		8》stopPropagation()----Funciton类型
+			取消事件的进一步捕获或者冒泡
+			
+		IE：function handler(){}
+		非IE：function handler(event){//实参-->arguments-->形参}
+		
+		栗子：	
+			function handler(e){
+				// alert(this.id);
+				 console.log(e.bubbles);//true
+				 console.log(e.cancelable);//true
+				 console.log(e.currentTarget);//<div id="inner">
+				 console.log(e.eventPhase);//2  代表处于目标
+				 console.log(e.target);//<div id="inner">
+				 console.log(e.type);//click
+				 console.log(e.preventDefault());//undefined
+				 console.log(e.stopPropagation());//undefined
+				 
+			}
+				inner.onclick=handler;//true
+					
+	2》IE中的事件对象					
+		1》cancelBubble---类似DOM事件对象的stopPropagation（）
+			是否取消事件冒泡，true：取消；false：不取消
+		
+		2》returnValue----类似DOM事件对象的preventDefault()
+			取消事件的默认行为，false：阻止；true：不阻止。
+			
+		3》srcEvent--类似DOM事件对象的target
+			事件目标
+		
+		4》type
+			被处罚的事件的类型
+			被处罚的事件的类型
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+							
+		
+		
+	

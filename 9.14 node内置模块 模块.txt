@@ -1,0 +1,387 @@
+	
+		9.14 node 
+		
+	1、Node vs Java
+	
+		1》node: js解析器
+			js运行时环境
+		2》java: Java解析器
+			jre Java运行环境（核心代码库rt.jar）
+			jvm Java虚拟机
+			
+			
+			
+	2、node	
+		1》模块交互：	
+			1>定义模块：	
+				example.js:
+				var add=function(e){return e+2;}
+				module.exports.add=add;//暴露接口 用于其它模块引用当前模块
+			2>模块加载：用require方法加载
+				var example=require('./example.js');
+				
+		2》模块对象	module
+			node内部提供一个module构建函数。
+			所有模块都是module的实例；
+			每个模块内部都有一个module对象，代表当前模块；
+			
+			属性：
+				module.id：模块的标识符，通常带有绝对路径的模块文件名。
+				module.filename:模块的文件名，带有绝对路径。
+				module.loaded:返回一个布尔值，表示该模块是否已经完成加载。
+				module.parent：返回一个对象，表示调用该模块的模块。
+				module.children：返回一个数组，表示该模块要用到的其他模块。
+				module.exports:表示模块对外输出的值。
+				
+		3》exports变量
+			node为每个模块提供一个exports变量，指向module.exports。
+			等同于在每个模块头部有这样一行命令：
+				var exports=module.exports;
+		
+		
+		4》核心模块（node本身提供）
+			1>url模块
+				用于URL处理与解析
+				
+				使用：require（’url‘）：用于解析统一资源定位符
+				
+					url.parse():将一个URL地址转换为一个对象。
+					url.resolve():该方法会以一种web浏览器解析超链接的方式把一个目标url解析成相对于一个基础URL。
+						url.resolve('http://example.com/', '/one');  // 'http://example.com/one' 
+					
+			2>querystring模块
+				用于解析与格式化URL查询字符串。
+				
+				使用：require（’querystring‘）
+				
+				querystring.stringify(obj[,sep[,eq]]):将对象转换为查询字符串
+					obj:要序列化成URL查询字符串的对象
+					sep 用于界定查询字符串中的键值对的子字符串，默认为&
+					eq 用于界定查询字符串中的键与值得子字符串，默认为=
+				
+				querystring.stringify(str[,sep[,eq]]):将查询字符串转为对象
+				
+				
+			
+			3>path模块
+				用于处理文件和目录的路径
+				使用：require（’path‘）；
+					  path.basename():该方法返回一个参数路径的最后一个部分
+					  path.dirname():返回一个paht的目录名
+					  path.extname():返回path的扩展名
+					  path.isAbsolute():判定path是否为一个绝对路径
+					  path.normalize():规范给定的path，并解析'..'和'.'片段
+					  path.delimiter():该属性提供平台特定的路径分隔符
+					  path.join():使用平台特定的分隔符把全部给定的path片段连接一起，并规范化生成的路径。
+					
+				__filename:指向当前运行的脚本文件名
+				__diename:指向当前运行的脚本所在的目录
+			
+			4>fs模块
+				require（’fs‘）：用于处理文件系统
+			
+			5>http模块
+				require（http‘）：用于进行网络编程
+			
+			
+		
+		
+		5》内置模块：
+				1》path
+					path.join()
+					path.basename()
+					path.dirname()
+					path.extname()
+					path.isAbsolute()
+				2》url	
+					var urlObj = url.parse() 将统一定位符转换为一个对象
+					urlObj.pathname;
+					urlObj.query;
+					urlObj.href;
+					host
+					hostname
+					port
+					统一资源定位符
+					http协议中规定
+					
+					credit=2&name=Java
+					courses/query?credit=2&name=Java
+						查找课程
+						通过学分和课程名称查找
+						学分       2
+						课程名称    java
+				
+				
+					栗子：	
+						var url=require('url');
+						var a='http://192.168.136.128:8080/courses/query?credit=2&name=Java';
+						var urlObj=url.parse(a);// 把地址url转为对象 便于访问
+						//console.log(urlObj);//Url {
+													  protocol: 'http:',
+													  slashes: true,
+													  auth: null,
+													  host: '192.168.136.128:8080',
+													  port: '8080',
+													  hostname: '192.168.136.128',
+													  hash: null,
+													  search: '?credit=2&name=Java',
+													  query: 'credit=2&name=Java',
+													  pathname: '/courses/query',
+													  path: '/courses/query?credit=2&name=Java',
+													  href: 'http://192.168.136.128:8080/courses/query?credit=2&name=Java' }
+						
+						//请求地址
+						var pathname=urlObj.pathname;
+						var query=urlObj.query;
+						console.log(pathname,query);  //courses/query credit=2&name=Java
+											
+				3》querystring
+					key1=value & key2=value 转为对象：
+					--》{
+							key1：value，
+							key2：value
+					    }
+					querystring.parse(查询的字符串);//将字符窜转为对象
+					querystring.stringify(对象obj);//将对象转为字符窜
+					
+					栗子：
+						var qs=require('querystring');
+						var query='credit=4&name=java';
+						var qso=qs.parse(query);//将query='credit=4&name=java' 转为对象
+						console.log(qso);//{ credit: '4', name: 'java' }
+						console.log("查询字符窜"+qs.stringify(qso));//查询字符窜credit=4&name=java
+
+				4》http模块（内置），主要用于服务器编程
+					node内置的http功能，适合用来开发web程序；
+					var http = require('http');
+					var server = http.createServer(function(req,resp){
+
+					});
+					server.listen(port,function(){
+					});
+					
+					node app.js 进入阻塞状态，持续接受用户请求
+					
+					１）获取用户的请求路径
+						req.url;    // /courses/aa?id=1001
+						url.parse(req.url).pathname;//  /courses/aa
+						url.parse(req.url).query;   //  id=1001
+
+						querystring.parse("id=1001");   //{id:1001}
+
+						req.method  GET POST(DELETE PUT)
+
+						事件(用来接受以post方式提交的请求)
+							data
+							end
+
+							req.on("data",function(){
+
+							});
+							req.on('end',function(){
+								
+							})
+					2) resp 
+						resp.writeHead(status,desc,{
+							'Content-type':'text/plain;charset=utf-8',
+							'Access-Control-Allow-Origin':'*'
+						});
+						resp.write();
+						resp.end()
+					
+				使用：	
+					1>加载http模块
+						var http=require（’http‘）；
+						
+					2>创建http服务器
+					var server=	http.createServer(function(req,res){
+					});
+					server.listen(port,function(){ });
+					
+					node http.js //启动服务 进入阻塞状态，持续接受用户请求
+					
+						服务器每次收到http请求后都会调用这个回调函数。
+						接收两个参数：
+							第一个参数：http.IncomingMessage对象，代表请求一个客户端请求
+							第二个参数：http.ServerResponse对象，代表请求一个服务器端响应对象。
+								resp.writeHead（status，desc，{"Content-Type":"text/plain;charset=utf-8","ACCESS-ALLOW-ORIGIN-":"*"}）
+								resp.write();
+								resp.end();
+						返回值为被创建的服务器对象。
+					
+					
+					
+					3>设置监听
+						server.listen(port[,host][,backlog][,callback]);
+					
+				获取客户端请求：
+					1》属性
+						1>req.mrthod:
+							客户端项服务器端范松请求时使用的方法；get/post
+							
+						2>req.url	
+							客户端向服务器端请求时使用的URL参数字符串
+							
+						3>req.headers
+							客户端返回发送的请求对象，
+							其中存放了客户端发送的所有请求头信息
+							包括各种cookie信息以及浏览器的各种信息
+					
+					2》方法
+						1>req.pause():
+							暂停次request触发事件，对于控制上传非常有用
+					
+						2>req.resume()
+							暂停一个暂停的request
+						
+					3》事件
+						1>data
+							当接收到消息中的一部分时发出data事件
+						
+						2>每次完全接受完消息后都会触发一次
+					
+				回应客户端请求：
+					1》 response.end([data][,encoding]) 	
+						结束响应，这个方法会告诉服务器此响应的所有报文头以及报文体已经发出，
+						服务器在此 调用后认为这条信息已经发送完毕，这个方法必须对每个响应调用一次。
+						如果指定的 data 参数，相当于调用了 response.write(data,encoding); 
+						然后跟着调用了 response.end() 
+					
+					2》 response.write(chunk[,encoding]);
+						发送响应内容， chunk 可以是一个字符串或者一个 buffer,
+						如果 chunk 是一个字符串 ，则第二个参数指定如何将这个字符串编码成字节流，
+						默认编码为 "utf8” 
+				
+					3》  response.writeHead(statusCode[,reasonPhrase,][headers]); 
+						statusCode 用于指定一个三位的 HTTP 状态码 , 例如 404 
+						
+						reasonPhrase 字符串，用于指定该状态码的描述信息
+						
+						headers 对象，用于指定服务器端创建的响应头对象
+				
+				
+					栗子：		
+						1》
+							var http = require("http");//加载http模块
+
+							http.createServer(function(req, res) { //创建http服务器 （客户端请求，服务器端响应对象）
+
+								res.writeHead( 200 , {"Content-Type":"text/html"});//处理编码乱码问题 200：ok
+
+								res.write("<h1>Node.js</h1>");
+
+								res.write("<p>Hello World</p>");
+
+								res.end("<p>beyondweb.cn</p>");
+
+								}).listen(82);//设置监听 端口号 通过访问端口号
+
+								console.log("HTTP server is listening at port 82.");
+							
+						2》
+							var http=require('http');
+							var urlModule=require('url');
+							var querystring=require('querystring');
+
+							//192.168.136.128:8080/
+							//每当接收到一个请求时都会执行回调函数
+							var server=http.createServer(function(req,resp){
+								//console.log("接收到请求了...");
+								//根据用户的请求给出用户对应的回应
+								var url=req.url;//用户请求的url
+								var method=req.method;//用户的请求方式
+								var pathname=urlModule.parse(url).pathname;//用户请求的url的路径名pathname
+								var query=urlModule.parse(url).query;//用户请求的url的路径的字符串
+								var params=querystring.parse(query);//将用户请求的url的路径的字符串转为对象
+
+								resp.writeHead(200,'ok', {
+									"Content-Type":"text/plain;charset=utf-8",
+									'Access-Control-Allow-Origin':'*'
+								});
+									
+								switch(pathname){
+									case '/students':
+										var students=[{id:001,name:'tom',gender:'男'},
+														 {id:001,name:'terry',gender:'男'}]；
+										resp.write(JSON.stringify(students));
+										resp.end();
+										break;
+											
+									case '/course':
+										var courses=[{id:001,name:'java',credit:2},
+														 {id:001,name:'html',credit:4}]；
+										resp.write(JSON.stringify(courses));
+										resp.end();
+										break;
+											
+									case '/class':
+										var class=[{id:001,name:'web1701'},
+														  {id:002,name:'web1702'}]；
+										resp.write(JSON.stringify(class));
+										resp.end();
+										break;
+										
+									default:
+										resp.write("请求出错");
+										resp.end();
+								}
+									
+								//console.log(url,method);
+								//console.log(pathname,params);
+								// console.log(method);
+							});
+								
+							server.listen(8080,function(){
+								console.log("端口号为8080的服务已经开启");
+							});
+
+		6》第三方模块(需要在线下载 在github.com)
+				express  用于网络编程
+				mysql 	 用于node.js连接数据库
+				...	
+			1>mysql模块
+				安装：$npm install mysql
+				
+			2>使用
+			
+				var	require('mysql');//加载MySQL模块
+			
+				var connection = mysql.createConnection({ // 创建连接对象 
+					host     : 'localhost', 
+					user     : ’root', 
+					password : 'root', 
+					database : 'web1701' 
+				}); 
+				
+				connection.connect(); // 进行数据库连接
+				
+				var sql=‘SELECT * from student'；
+				connection.query(sql, function (error, results) { 
+					if (error) throw error; // 执行查询 
+					console.log('The solution is: ', results); 
+				});
+				
+				connection.end(); // 关闭链接
+			
+			3>连接池
+				使用连接池管理所有的链接，方便共享单个连接
+				
+				var mysql=require('mysql');
+				var pool=mysql.createPool({
+					host:'127.0.0.1',
+					user:'root',
+					password:'root',
+					database:'web1701'
+				});
+				
+				获取连接：
+					
+					pool.getConnection(function(err,connection){
+						var sql=‘SELECT * from student'；
+						connection.query(sql,function(err,results){
+							connection.release();//释放连接
+							connection.destroy();//当连接不需要时销毁连接
+						});
+						
+					});
+		

@@ -1,0 +1,120 @@
+﻿动画与变形
+1动画	
+	创建动画：@keyframe name{
+								from{动画开始位置}
+								to{动画结束位置}
+							}
+	绑定动画：div{animotion：@keyframesname animotion-duration
+				  animotion-duration 规定动画一个周期持续的时间
+				  animotion-timing-function：规定动画曲线。
+				  animotion-delay：规定动画何时开始，默认0s单位秒或者毫秒ms
+				  animotion-iteration-count：规定动画播放的次数，默认为1次
+				  animotion-direction：规定动画是否在下一周期逆向地播放，默认normal不逆向
+				  animotion-paly-state：规定动画是否正在运行或者暂停，
+				  animotion-fill-mode：规定动画时间之外的状态
+					}
+	
+	属性：animotion-name：规定@keyframes动画名称
+		  animotion-timing-function：规定动画曲线。
+									ease 默认
+									ease-in 先慢后快
+									ease-out 先快后慢
+									ease-in-out 先慢后快再慢
+									linear 线性增长即匀速
+							  自定义：ease:cubic-bezier(x,x,x,x) x数值为0-1之间
+									
+		  animotion-delay：规定动画何时开始，默认0s单位秒或者毫秒ms
+		  animotion-iteration-count：规定动画播放的次数，默认为1次
+									n 整数值，n次播放
+									infinite 无限次播放
+		  animotion-direction：规定动画是否在下一周期逆向地播放，默认normal不逆向
+								normal 默认 顺时针播放
+								reverse 逆序 逆时针播放
+								alternate 交替反转，第一次顺时针，第一次结束后第二次逆时针，
+										速度曲线也交替反转 反转时为ease-out
+								alternate-reverse：第一次播放为逆时针，第二次顺时针，交替反转
+		  animotion-play-state：规定动画是否正在运行或者暂停，
+								默认running
+								paused 暂停
+		  animotion-fill-mode：规定动画时间之外的状态
+								none
+								forwards ：目标将保留在执行动画期间所遇到的最后一个关键帧所设置的计算值
+										   即当动画执行结束后，保留最后的动画样式并应用到元素上，覆盖元素初始的样式
+											将动画结束后的样式应用到元素
+								backwards：目标将保留在执行期间所遇到的第一个关键帧所设置的计算值
+										   一般配合animotion-delay使用，在delay的时间状态显示第一个帧的样式，
+										   而不是元素本身的样式
+										   在delay的时间内，将0%的动画样式应用到元素上
+								both ：以上两种都使用
+										在delay的时间内，将0%的动画样式应用到元素上
+										将动画结束后的样式应用到元素
+二、变形-----2D、3D转换							
+	1 2D转换
+		转换方法：
+		 （1）translate  位置偏移  单位像素
+		 （2）rotate     旋转
+		 （3）scale  缩放 单位像素
+		 （4）skew   倾斜
+		 （5）matrix（n，n，n，n，n，n）简写
+		 
+		 （1）translate  位置偏移  单位像素
+			  translate（x，y）x、y轴偏移
+			  translateX（n）  x轴偏移
+			  translatey（n）  y轴偏移
+		 （2）rotate     旋转
+			  rotate（angle）  默认顺时针旋转
+			  rotateX（angle）  绕X轴旋转
+			  rotateY（angle）  绕Y轴旋转
+		 （3）scale  缩放比例 单位像素
+			  scale（x，y）改变元素的宽度和高度
+			  scaleX（x）  改变元素的宽度
+			  scaleY（y）  改变元素的高度
+		 （4）skew   倾斜
+			  skew（x-angle，y-angle）沿着 X 和 Y 轴。
+			  skewX（angel） 沿着 X 轴。
+			  skewY（angel）  沿着 Y 轴
+		 （5）matrix（n，n，n，n，n，n）简写
+								
+	2 3D转换
+		转换方法：
+		 （1）translate3d  位置偏移  单位像素
+		 （2）rotate3d     旋转
+		 （3）scale3d  缩放 单位像素
+		 （4）perspective   转换元素的透视视图
+		 （5）matrix（n，n，n，n，n，n）简写
+		 
+		 （1）translate3d  位置偏移  单位像素
+			  translate3d（x，y，z）x、y轴偏移
+			  translateX（x）  x轴偏移 仅适用x轴的值
+			  translateY（y）  y轴偏移 仅适用y轴的值
+			  translateZ（z）  z轴偏移 仅适用z轴的值
+		 （2）rotate3d     旋转
+			  rotate3d（x,y,z,angle）  默认顺时针旋转
+			  rotateX(angel) 沿 X 轴的 3D 旋转
+			  rotateY(angel) 沿 y 轴的 3D 旋转
+			  rotateZ(angel) 沿 Z 轴的 3D 旋转
+		 （3）scale3d  缩放 单位像素
+			  scale（x，y,z）
+			  scaleX（x）  改变元素x轴的值
+			  scaleY（y）  改变元素y轴的值
+			   scaleY（z）  改变元素z轴的值
+			  
+		 （4）perspective   转换元素的透视视图
+			  
+		 （5）简写 ：matrix（n，n，n，n，
+					         n，n，n，n，
+							 n，n，n，n，
+							 n，n，n，n）
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								
+								

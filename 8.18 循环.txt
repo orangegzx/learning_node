@@ -1,0 +1,119 @@
+﻿ 08) 相等操作符,返回【Boolean】
+		1.相等和不相等 ==, != (先转换在比较)
+			1.如果两个操作数都为字符串，比较字符序列
+			2.如果两个操作数都为数值类型，比较值的是否相等
+			var a=3;
+			var b="4";
+			a==b//false
+			3.如果两个操作数都是对象，比较的对象的引用
+			4)null == undefined			//true
+			5)NaN与任何值（包括NaN）相等比较结果为false，不等结果为true.
+			6)如果一个操作数为number类型，另外一个操作数为undefined,null,boolean,string之一，先将这些数据类型转换为数值，再进行比较
+
+		2.全等和不全等
+			仅比较不转换，先比较两个数所属的数据类型，如果类型不同则不同，如果类型相同，再继续比较两个数的值
+			console.log("55" == 55); true
+			console.log("55" === 55);false
+			null == undifined;		//true null派生自undifined
+			null === undifined;		//false
+
+    09) 三目运算符 : 
+		variable = boolean_expression ? true_value : false_value;
+		如果boolean_expression为true,将true_value赋给variable，否则将false_value赋给variable
+	    
+		
+    10) 赋值运算符 = 
+       将右侧的值赋给左侧的变量
+       可以和其他算术运算符连用 *= /= %= += -= 
+	   var a = 4;
+
+       a *= 3; //=> a = a*3;
+    11) 逗号操作符
+       可以在一条语句中执行多个操作
+       var num1=1,num2 = 2, num3 = 3;
+
+
+
+
+
+
+
+
+
+
+1，流程控制语句
+    01) if语句
+		if(condition){
+			statement1
+		}else{
+			statement2
+		}
+		condition表示任意表达式，该表达式求值的结果不一定是布尔类型，如果不是布尔类型，ECMAScript会调用Boolean() 转换函数将这个表达式结果转换为一个布尔类型，如果condition求值结果为true,执行statement1。如果求值结果为false，执行statement2
+
+		if(condition){
+			statement1
+		}
+		statement2
+
+		
+    02)switch语句
+		switch(expression){
+			case val:
+
+				break;
+			case val2:
+
+				break;
+			default:
+		}
+		==>
+		switch(expression){
+			case val:{
+
+				break;
+			}
+			case val2:{
+				break;
+			}
+			default:
+		}
+      可以在switch语句中使用任何数据类型。
+      case的值不一定是常量，也可以是变量，甚至是表达式。
+	  expression === val
+	  break
+
+
+2. 循环语句	
+	01)for语句
+		for循环是一种前测试循环语句，但它具有在执行循环之前初始化变量和定义循环后要执行的代码的能力。以下是for循环的语法：
+        初始化表达式，控制表达式，循环后表达式
+		for(initialization;expression;post-loop-expression){
+			//loop option
+		}
+		//三要素
+
+		初始化条件
+		结束条件
+		迭代条件
+		for(初始条件;结束条件;迭代条件){
+			循环体
+		}
+
+
+		例如:
+		var sum = 0;
+		for(var i=0;i<10;i++){
+			sum +=i;
+		}
+		console.log(i); //10  
+
+		ECMAScript不存在块级作用域，在循环内部定义的变量也可以在外部访问到
+	
+		死循环
+		for(;;){
+			//当for中的表达式省略的时候，会创建一个死循环
+		}
+		while(true){
+		
+		}
+	

@@ -1,0 +1,138 @@
+9.11
+
+1、数据库定义
+	1》创建数据库
+		create database 数据库名
+		
+	2》切换数据库
+		use 数据库名
+		use 数据库名
+		
+	3》查看所有数据库
+		show databases
+		
+	4》删除数据库
+		drop  数据库名
+	
+		
+2、数据库表的定义
+	1》创建数据库表
+		create table 表名（
+			列名1 数据类型 [约束],
+			列名2 数据类型 [约束],
+			[约束]
+		）；
+	
+	
+	2》修改表结构
+		添加：alter table 表名 add column 列定义
+		删除：alter table 表名 drop column 
+		修改：alter table 表名 modify column 列定义
+		
+	3》表的删除
+		drop table 表名
+		
+	4》表中数据的清空
+		truncate 表名
+		
+	5》表关系
+		关系主要由外键体现的
+		1>一对多关系
+		2>一对一关系
+			是一对多关系的特例（外键 唯一的约束）
+			外键维护在任意一方（从方） 
+			
+		3>多对多关系
+			也是一对多关系的特例（两个一对多就组成了多对多）
+			student
+			id  name	gender
+			1	terry	male
+			2	larry	male
+			3	tom		male
+			
+			studeCourse
+			id	studen_id	course_id 	grade
+			
+			course
+			id	name	credit
+			1	java	4	
+			1	c		2	
+			2	css		2
+				
+		
+	6》数据类型：
+		1>数字类型
+			int float double
+			
+		2>字符类型
+			varchar（5）//可变类型 如'var' 最长为5 可为3位
+			char（5）//不可变类型  'var  '剩余的两位用两个空格来代替
+			text 文本类型
+			
+		3>日期类型
+			date---》年-月-日 96-2-1（月份可补0）
+			datetime----》年-月-日 时:分:秒 96-03-01 14:47:25
+		
+	7》约束条件：
+		1>主键约束(primary key)
+			id int primary key
+			非空，不能重复，不参与业务逻辑运算的
+			
+			学生信息
+			ID  学号 姓名 性别 住址 
+			1	101	 terry 男  江苏 
+			2	101	 terry 男  江苏 
+		
+		2>外键约束（foreign key() references table ）
+			参照另外一张表主键的键称为外键
+			外键可以为空
+			如果不为空 她一定对应一条数据
+			
+			如：
+				手机信息
+				ID  型号	颜色	手机号			外键
+				1	iPhone6 金色	18878945612		1
+				2	iPhone6 黑色	18878945612		1
+				3	iPhone6 黑色	18878945612		2
+			
+			笛卡尔积（等值连接 手机外键=学生主键）
+		
+		
+		3>唯一约束（unique）
+			
+		
+		4>非空约束（not null）
+		
+		5>检查约束（check）
+			男 女
+		
+		6>栗子
+			create table student(
+				id INT primary key,
+				name varchar(20),
+				gender char(1),
+				birth date
+			);
+
+		
+		
+		
+		
+3、创建数据库和表栗子：
+		mysql>create database web1701; //创建数据库web1701
+		mysql>show databases; //查看所有数据库实例
+		mysql>use web1701; //切换到数据库web1701
+		mysql>create table student(//在数据库web1701中创建student表
+		mysql>id INT primary key,
+		mysql>name varchar(20),
+		mysql>gender char(1),
+		mysql>birth date
+		mysql>);
+		mysql>show tables; //查看数据库web1701的表
+		mysql>desc student; //查看数据库web1701的student表结构		
+		
+		
+		
+		
+		
+		

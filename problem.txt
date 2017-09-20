@@ -1,0 +1,99 @@
+1、元素垂直水平居中方法
+	（1）父元素：position:relative;
+		子元素：position:absolute;
+				left:0; right:0; top:0; bottom:0;
+				margin:auto;
+	（2）父元素：position：relative；
+		 子元素：position：absolute；
+				 left：w；right：w；
+				top；h；bottom：h；
+		
+	（3）父元素：position:relative;
+		子元素：position:absolute;
+				left:0; right:0; 
+				margin: h百分比显示 auto;
+	（4）
+		父元素：position:relative;
+		子元素：position:absolute;
+				bottom:0; top:0; 
+				margin:auto w;
+	（5）父元素：position：relative；
+		子元素：position：absolute；
+				margin:h w;
+	
+	说明：设父元素的宽高分别为	W1、H1
+			子元素的宽高分别为W2、H2
+			h=（H1-H2）/(2*H1)
+			w= (W1-W2)/ (2*W1)
+			
+2、文本居中	
+    （1）在父元素中设置：text-align：center； line-height：文字所在盒子的高度
+	（2）在自身元素中设置：text-align：center； line-height：文字所在盒子的高度
+	（3）文本需要span标签括起来，
+		
+		在span父元素设置position：relative；
+		在span设置中设置position：absolute；left：0；right：0；top：0；bottom：0；
+						display：inline-block/block；
+			设置span样式而且span标签必须转换为块级或者行内块级元素
+			和设置宽高，
+
+3、外边距合并问题
+	（1）兄弟间外边距合并问题：
+		都去正值时，取最大值作为两个元素之间的间距；
+		一正一负时，直接相加减操作作为两个元素的间距；
+		都为负值时，用0减去绝对值最大值 作为两元素间距。
+	
+	（2）父子级之间外边距合并问题：
+		给父级添加position：absolute（除了static与relative）
+		给父级添加overflow：hidden（除了visible，其他值都可取），但是有时候还会发生重叠
+		给子级添加浮动float：除了none值其他值都可取。
+		给子级添加display：inline-block/table-cell/table-caption。
+		给子级margin属性改为父级的padding属性
+4、padding设置后会影响盒子模型的宽高，margin则不会影响
+5、只要是可以装内容的元素都有盒子模型和边框样式
+6、position：absolute;绝对定位
+	参照物：有定位元素的上级元素，从内向外查找元素，看是否有定位属性的元素，
+	如果有定位属性的元素就根据最近的元素来定位，
+	如果没有找到有定位元素属性的元素，默认根据body来定位		
+7、行内元素盒子模型，padding  margin-left 和margin-right有用，
+	而margin-top和margin-bottom没有作用，只有将行内元素转换成块级元素时才可以用。	
+	即在水平方向设置padding-left/right、margin-left/right有效，
+	在垂直方向设置padding-top/bottom、margin-top/bottom无效。
+8、a标签中嵌套img时，img默认会有1px的border，需要在CSS中加入a img {border:none;}。
+9、a标签中嵌套img时，必须有a{dispaly:block;}否则在IE6下将影响布局
+	（即在图片下方多出一部分空白）。
+10、在进行position定位时，如果是标签嵌套时定位必须将父标签里的浮动全部清除，
+    子标签的浮动后的CSS样式才能在IE6下被读出。
+11、未使用float浮动时，内层标签的margin值撑不开外层标签，
+	而内层标签的padding值则可以撑开。	
+12、标签嵌套时，如果父子标签均浮动，子标签就不用清除浮动。		
+13、logo外层需要用H1标签嵌套。
+14、margin-left/righ产生双倍间距解决：
+		display：inline；
+15、单行显示文本，溢出部分省略号表示：
+	    overflow：hidden；text-overflow：ellipsis；white-space；
+	多行显示文本，溢出部分省略号表示：
+		overflow : hidden;text-overflow: ellipsis;
+		display: -webkit-box;
+		webkit-line-clamp: 2;
+		-webkit-box-orient: vertical;
+		
+		-webkit-line-clamp用来限制在一个块元素显示的文本的行数。
+			为了实现该效果，它需要组合其他的WebKit属性。但是火狐不支持这个属性，适用于移动端。
+		dispaly：-webkit-box：必须结合的属性将对象作为弹性盒子模型显示。
+		-webkit-box-orient：必须结合的属性，设置或者检索伸缩盒对象的子元素的排列方式。
+		-text-overflow：ellipsis 可以用来多行文本的情况下，用省略号隐藏溢出部分的文本。
+		
+		
+		
+		
+		
+		
+		
+	
+			
+			
+			
+			
+			
+			

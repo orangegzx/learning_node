@@ -1,0 +1,168 @@
+		
+		包装类型
+一、String类型
+	1》length
+		获取字符串额字符数量
+		返回值为number类型
+	2》charAt():返回给定位置的字符，即当前下标对应的字符
+	3》charCodeAt（）：返回给定位置的字符的字符编码。
+	4》indexOf（）：从前往后查找
+					找到元素，返回当前元素的下标；
+					找不到返回-1；
+	5》lastindexOf（）：从后往前查找
+					找到元素，返回当前元素的下标；
+					找不到返回-1；
+					两个的参数时，从指定的位置向后查找；
+						第一个参数为要查找的元素，第二个参数为开始查找得位置。
+	6》concat（）：字符拼接，返回一个新的字符，不改变原字符串
+	
+	7》slice（）：截取字符串；不改变原字符串，返回截取的字符串
+		参数为0:0返回原字符串的复制字符串。
+		参数为1个：从起始位置开始到当前字符串末尾的所有字符；
+		参数为2个：第一个参数为起始位置，第二位结束位置；
+		
+	8》substr（）：截取字符串：不改变原字符串
+		两个参数：第一个为开始位置，第二个参数为返回的字符的个数。
+		
+		
+	9》substring（）：截取字符串。不改变原数组，返回截取的字符串；
+		两个参数：第一个为开始位置，第二个参数为字符的结束位置。
+		
+	10》trim（）：删除前置和后置的所有空格，返回结果，中间的空格不能删除。
+
+	11》toLowerCase（）：转为小写，原字符串不变
+	
+	12》toUpperCase（）：转为大写，原字符串不变
+		
+二、Math方法
+	1》Math.min（）：求一组数中的最小值
+	2》Math.max（）：求一组数中的最大值
+	3》Math.ceil():将小数向上舍入为整数
+	4》Math.floor():将小数向下舍入为整数
+	5》Math.round():将小数四舍五入为整数
+	6》Math.random():返回一个大于0小于1的随机数；
+		Math.random()*10；返回0-10的数；
+	7》pow（num，power）：num的power次幂
+	8》sqrt（num）：num的平方根
+	9》abs（num）：返回num的绝对值。
+
+三、Date（）
+	var date=new Date（）;//当前日期
+	date.getFullYear():返回当前年份；
+	date.getMonth():返回当前月份，月
+	date.getDate():返回当前日期，日
+	date.getDay():返回当前星期0-6；0代表周日
+	date.getHours():返回当前时间的小时，时；
+	date.getMinutes():返回当前时间的分钟，分钟；
+	date.getSeconds():返回当前时间的秒数，秒；
+	date.getMillseconds():返回当前时间的毫秒数，毫秒；
+	
+	date.getTime():将一个日期对象以毫秒形式返回；
+					格林威治时间：1924 2
+	date.getTimezoneOffset():GMT时间与本地时间差，用分钟表示。//分钟时间差
+	date.getYear():返回Date对象中年份减去1900。//年差
+	date.now():静态方法，返回1970-01-01午夜到现在的时间间隔。毫秒表示
+	date.valueOf():如果是一个Date对象，将一个Date对象转为毫秒的形式，否则不显示。
+	
+	date.toDateString():以字符串的形式返回一个Date的日期部分//console.log(date.toDateString("yyyy-MM-dd"))
+	date.toTimeString():以字符串的形式返回一个Date的时间部分//console.log(date.toTimeString("yyyy-MM-dd"))
+	date.toISOString():将一个Date对象转换为ISO-8601格式的字符串，返回的字符串格式为yyyy-mm-ddThh：mm：ssZ。
+	
+	date.toJSON():序列化。
+	date.toLocaleDateString():以本地格式的字符串返回一个Date的日期部分，返回一个本地可读的日期格式，日期部分。
+	date.toLocaleTimeString():以本地格式的字符串返回一个Date的时间部分。
+	date.toLocaleString():返回值为Date转为一个本地格式的字符串。
+	date.toString():将一个Date转为一个字符串；返回值为格林威治时间的字符串表示
+	
+	
+	
+	
+	
+四、面向对象
+	1》属性分类
+		数据属性  访问器属性
+		
+		1>数据类型：包含一个属性值的位置，这个位置可以读取和写入值。
+			Object.defineProperty(obj,"age",{
+				1.设置当前属性是否可以删除；
+				2.设置当前属性是否可以是否可以循环显示；
+				3.设置当前属性是否可以可写/可修改
+					默认值为true；
+				4.设置当前属性的属性值。
+				value：20；
+			})
+			console.log(obj.age);//20
+			Array.isArray();
+			
+		2>设置访问器属性
+			Object.defineProperty(obj,"age",{
+				set:function(a){this_age=a},
+				get:function(){return _age}
+			});
+			obj.age=20;//调用一个set函数
+		
+		3>设置多个属性
+			Object.defineProperties（）：接收两个参数；
+				第一个参数：添加后者修改属性的对象
+				第二個参数：第二个对象的属性和第一个对象要添加和修改的属性对应的内容
+			栗子：
+				// 设置多属性
+				var obj={};
+				Object.defineProperties(obj,{
+					_year:{value:1001,
+							writable:true//设置true才可以在外部修改
+							
+							},
+					edition:{value:1},
+					year:{
+					   
+						set:function(year){
+							this._year=year
+
+						},
+						 get:function(){
+							return this._year;
+						}
+					}
+
+				});
+			   
+				console.log(obj.year);//1001
+				console.log(obj);
+				//修改
+				obj.year=30;
+				 console.log(obj.year);//30
+				console.log(obj);
+				// 访问属性
+				var descriptor=Object.getOwnPropertyDescriptor(obj,"_year");
+				console.log(descriptor.configurable);//false
+				console.log(descriptor.value);//30 修改后的值
+
+		4>访问属性
+			Object.getOwnPropertyDescriptor():
+				接受两个参数：
+					第一个参数为属性所在的对象，
+					第二个为要读取其描述符的属性名称。
+					
+			
+					
+					
+					
+				
+				
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+			
+		

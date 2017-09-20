@@ -1,0 +1,270 @@
+
+1、	文档对象类型  Document Object Model(DOM)
+	1》DOM是针对HTML和XML文档的一个API（应用程序编程接口），
+		描绘一个层次化的节点树，允许开发人员添加，移除，修改页面的某一部分。
+	2》1998年10月DOM1级规范成为W3C的推荐标准，为基本的文档结构以及查询提供了接口。
+		注意的是IE中的所有DOM对象都是以COM对象的形式实现。
+		意味着IE中的DOM对象与原生的JavaScript对象的行为或活动特点并不一致。
+	
+	3》DOM可以将任何HTML或者XML文档描绘成一个由多层节点构成的结构，
+		节点分为几种不同的类型，每种类型分别表示文档中不同的信息或标记
+		每个节点拥有各自的特点，数据和方法，另外也有其他节点存在的某种关系。
+		节点之间的关系构成了层次，所有页面标记则表现为一个以特定节点为根节点的树形结构。
+		
+		根节点的树形结构：
+					Object
+					  |
+					 Node：
+		Element(元素类型)  Document(整个文档页面)  comment(注释类型)  text(文本类型) 
+		HTMLElement	
+		<div></div>
+
+
+2、节点关系
+	属性：
+		1》nodeType：表示节点类型
+		
+			Element 1;TextNode 3;Comment 8;Document 9
+				console.log(document.nodeType);//9 nodeType表示节点类型 
+			
+			document 是Document构造函数的实例
+			document.body是Element构造函数的实例
+			document.body.firstChild 是Comment构造函数的实例
+				
+		
+		2》nodeName：
+			该属性取决于节点类型，如果是元素类型，值为元素的标签名，且以大写形式返回。
+			即返回一个节点的名称（大写）。
+			
+			console.log(document.getElementById('one').nodeName);// DIV
+				 
+		3》nodeValue：
+			该属性取决于节点类型，若是元素类型，值伪null。
+		
+			console.log(document.getElementById('one').nodeValue);//null
+			console.log(document.nodeValue);//null
+				 
+		4》childNodes：属性，保存一个NodeList对象，
+				返回值为包含所有孩子节点的类数组对象（NodeList）;
+				NodeList是一种类数组对象用来保存一组有序的节点,
+				NodeList是基于DOM结构动态执行查询的结果，DOM结构变化可以自动反应到NodeList对象中。
+				访问时可以通过中括号进行访问，也可通过item()方法访问。
+				可以使用slice方法将NodeList转换为数组。
+				 
+				// childNodes
+				var body=document.body;
+				var result=body.childNodes;
+				console.log(result);//NodeList [ #text " ", <div.one>, #text " ", <div.two>, #text " ", <script> ]
+				   
+				//将NodeList转为数组并遍历数组
+				var arr=Array.prototype.slice.call(result,0);
+			
+				console.log(arr);
+				 arr.forEach(function(element) {
+					console.log(element);
+				});
+				 
+		5》parentNode:
+			指向文档中的父节点，
+			包含在childNode列表中的所有的节点都具有相同的父节点，
+			每个节点之间都是同胞/兄弟节点。
+				
+			栗子：
+				console.log(body.parentNode);//<html lang="en">
+				console.log(document.getElementById('one').parentNode);//<body>
+				console.log(document.getElementById('two').parentNode);//<body>
+				 
+				 
+		6》previousSiblig：
+			兄弟节点的前一个节点。
+			
+			栗子：
+				console.log(document.getElementById('two').previousSibling);//#text " "
+				console.log(body.previousSibling);//#text " "
+		
+		7》nextSibling：
+			兄弟节点的下一个节点。
+			
+			栗子：
+				console.log(document.getElementById('one').nextSibling);//#text " "
+			
+			
+		8》firstChild：
+			childNodes列表中的第一个节点。
+			
+			栗子：
+				console.log(body.firstChild);//#text " "
+				console.log(body.firstChild.nextSibling);//<div id="one">
+			
+		9》lastChild：
+			ChildNodes列表中的最后一个节点。
+			
+			栗子：
+				console.log(body.lastChild);//<script>
+				console.log(body.lastChild.previousSibling);//#text " "
+			
+		
+		10》ownerDocument：
+			指向整个文档的文档节点。
+			任何节点都属于它所在的文档，
+			任何节点都不能同时存在于两个或者更多个文档中。
+			
+			栗子：
+				//HTMLDocument → file:///G:/briup/8.30/Node%E7%B1%BB%E5%9E%8B.html
+				console.log(body.ownerDocument);
+				
+				//HTMLDocument → file:///G:/briup/8.30/Node%E7%B1%BB%E5%9E%8B.html
+				console.log(document.getElementById("one").ownerDocument);
+			
+		
+	方法：
+		
+		1》hasChildNodes（）：
+			在包含一个或者多个子节点的情况下返回true。
+			
+			栗子：	
+				console.log(document.getElementById("one").hasChildNodes());//true
+		
+			
+		2》cloneNode():
+			可应用在任何节点上；
+			参数默认为false，表示不深复制，即只复制本身不复制文本，想要文本奇异克隆，则把参数设为true。
+			true：表示深复制，即复制节点以及整个子节点数。
+			false：浅复制，只复制节点本身，默认。
+			该方法不会复制添加到DOM节点中的JavaScript属性，例如事件处理程序等。
+			该方法只复制特定，其他一切都不复制。
+			但是IE中可以复制，建议标准相同，在复制之前，移除所有事件处理程序。
+			
+			栗子见操作节点的栗子。
+			
+			
+		
+		3》normalize()
+			处理文档树中的文本节点
+			由于解析器的实现或DOM操作等原因，可能会出现文本节点不包含文本，
+			或者接连出现两个文本节点，当在某个节点上调用了该方法，会删除空白节点，
+			会找到相邻的两个文本节点，并将它们合并为一个文本节点。
+			
+		
+			
+			
+3、操作节点
+	只能使用于父级节点。
+			1》appendChild():
+				向ChildNodes列表末尾添加一个节点。
+				返回新增的节点。
+				如果参数节点已经成为文档的一部分，位置更新而不插入。
+				
+			2》insertBefore():
+				被插入的节点会变成参照节点的前一个同胞节点，同时被方法返回。
+				如果第二个参数为null将会将该节点追加在ChildNodes后面。
+				
+				接收两个参数：
+					第一个参数：要插入的节点。
+					第二个参数：作为参照的节点。
+					
+			3》replaceChild():
+				接收两个参数：	
+					第一个参数：要插入的节点；
+					第二个参数：要替换的节点。
+				要替换的节点将由这个方法返回并从文档树中被移除，
+				同时要插入的节点占据其位置。
+					
+			4》removeChild():
+				接收一个参数：即将要移除的节点。
+				移除的节点将作为方法的返回值。
+				其他方法，任何节点对象都可以调用。
+			
+			栗子：	
+				<style>
+					#outer{
+						height: 200px;
+						background-color: darkgoldenrod;
+					}
+					#outer div{
+						width: 100px;
+						height: 100px;
+						margin: 20px;
+						float: left;
+					}
+					#outer div#one{background-color: red;}
+					#outer div#two{background-color: blue;}
+					#outer div#three{background-color: green;}
+			</style>
+			</head>
+			<body>
+				<div id="outer">
+					<div id="one">one</div>
+					<div id="two">two</div>
+					<div id="three">three</div>
+				</div>
+				<button id="append">追加</button>
+				<button id="insert">插入</button>
+				<button id="replace">替换</button>
+				<button id="delete">删除</button>
+
+				<script>
+					
+					var outer=document.getElementById("outer");
+					var one=document.getElementById("one");
+					var two=document.getElementById("two");
+					var three=document.getElementById("three");
+					var btn_append=document.getElementById("append");
+					var btn_inset=document.getElementById("insert");
+					var btn_replace=document.getElementById("replace");
+					var btn_delete=document.getElementById("delete");
+
+					// 复制节点
+					// 写下外面点击只克隆一次，卸载函数里面克隆次数无限
+					var clone =one.cloneNode(true);//默认为false，表示不深复制，即不复制文本。
+					btn_append.onclick=function(){
+						// alert("1");
+						//cloneNode（）
+						// var clone =one.cloneNode(true);//默认为false，表示不深复制，即不复制文本。
+						// console.log(clone);//<div id="one">
+						//appendChild（）
+						outer.appendChild(clone);
+						console.log(outer.appendChild(clone));//<div id="one">
+					}
+
+
+					// 插入节点
+					btn_inset.onclick=function(){
+						outer.insertBefore(clone,two);//在two之前插入clone的元素one。
+						 console.log(outer.insertBefore(clone,two));//<div id="one">
+					}
+
+					//替换节点
+					btn_replace.onclick=function(){
+						outer.replaceChild(clone,three);
+						 console.log(outer.replaceChild(clone,three));
+					}
+
+					// 删除节点
+					btn_delete.onclick=function(){
+						outer.removeChild(three);
+						console.log( outer.removeChild(three));
+					}
+				</script>
+			</body>
+
+						
+						
+						
+						
+						
+						
+							 
+							 
+							 
+							 
+							 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 
+				 

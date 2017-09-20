@@ -1,0 +1,154 @@
+1、区别
+	标记语言：
+		本身没有逻辑能力和执行能力，只能够被读取；
+	脚本语言：
+		在HTML中执行
+		本身具有逻辑能力，行为能力，需要被浏览器解析执行；
+	编译语言：
+		本身具有逻辑能力，行为能力，需要被编译器运行。
+2、js特点：
+	1》结合其他语言
+		html
+		本身具有行为能力和逻辑能力
+	2》解析性语言
+		需要浏览器内置的js解析器解析执行
+	3》弱类型语言，动态语言（变量本身类型不固定）
+		java：强类型语言，静态语言（变量本身类型固定）
+	4》从上往下顺序解析执行的语言
+		默认顺序
+3、JavaScript的实现
+	一个完整的JavaScript的实现应该包含：
+		核心----ECMAScript
+		文档对象模型----DOM
+		浏览器对象模型--BOM（alert()）
+	
+	1》ECMAScript
+		ECMA-262 定义的ECMAScript与web浏览器没有依赖关系，
+		浏览器只是ECMAScript实现可能的宿主环境之一，
+		宿主环境不仅提供基本的ECMAScript实现同时也提供语言的扩展，
+		以便语言与环境之间对接交互。扩展如DOMECMA规定了这门语言的组成部分
+		语法
+		类型
+		语句
+		关键字
+		保留字
+		操作符
+		对象（万物皆对象）
+		
+	2》DOM(文档对象模型)
+		document object model，
+		针对XML但经过扩展用于HTML的应用程序编程，
+		DOM将整个页面映射成一个多节点结构。
+	
+	3》BOM（浏览器对象模型）
+		开发人员可以使用BOM控制的浏览器显示的页面以外的部分。
+		弹出新浏览器窗口，移动，缩放，关闭浏览器的功能。
+		提供浏览器详细信息的navigator对象；
+		提供浏览器所加载页面的详细信息的location对象；
+		提供用户显示器分辨率详细信息的screen对象；
+		对cookies的支持；
+		支持XMLHttpRequest，IE中的ActiveXObject自定义对象。
+
+HTML页面中使用js
+	1》嵌入在HTML标签中
+		<div onclick="alert（‘’）"></div>
+		<a href="javascript:void(0)"></a> 阻止a标签的跳转
+	2》嵌入在head标签内部
+		<script type="text/javascript"></script>
+		默认使用位置
+		script可以使用在HTML页面中的任意位置
+		有如下属性：
+			type：表示编写代码使用的脚本语言的内容类型，
+				 MIME这个属性非必须，默认是text/JavaScript
+			src：表示包含要执行代码的外部文件
+			async：立刻下载脚本，但应妨碍页面中种的其他操作（只针对外部脚本文件）
+			charset：指定src属性指定的代码的字符集，大多浏览器会忽略这个值。
+			defer:延迟到文档全部解析和显示之后执行（只针对外部脚本文件）
+			language：已废弃。
+	3》引入外部的js文件
+		<script type="text/javascript" src="xxx.js"></script
+		创建一个以.js为后缀名的文件
+		如style.js
+		外部引入时，注意事项：
+			1 不要在<script>标签中再写其他的js代码，否则会被忽略；
+			2 src可以跨域访问。例如http://cdn.code.baidu.com/百度静态资源公共库。
+			3 标签位置head中：等到全部的js代码被下载，
+			  解析和执行完成后才能开始呈现页面的内容。
+			  可将代码引用放到body元素内容后面。
+			4 延迟脚本defer=“defer”，延迟至浏览器遇到</html>标签后再执行。
+				如果有多个延迟脚本，并不会按照顺序执行。
+				最好包含一个延迟脚本，并且将其放在页面最底部，
+				该属性适用于外部引用的js。
+			
+		
+script 标签中的属性
+		type/javascript:标识当前script代码属性
+		src：相对或者绝对路径，一般写相对路径
+		defer：延迟加载脚本，Boolean类型，
+			   延迟到所有js和DOM全部解析执行完成之后才开始执行
+				只能用在外部引入的script上
+				建议一个页面只能写一个defer属性
+6、<noscript></noscript>：当浏览器不支持脚本或者浏览器支持脚本，脚本被禁用，可以让页面平稳的退化。
+
+	告诉用户当前浏览器不支持js代码
+	
+7、基础语法：
+	1》区分大小写
+		typeof：判断变量的类型
+		typeOf：报错；
+	2》标识符
+		变量/函数名..
+		只能以字符、数字、下划线，$组成
+		不能以数字开头
+		不能以关键字（保留字）作为变量名
+		建议命名采用驼峰式命名，
+			即多个英文组合时将第二个单词的首字母大写
+			var firstName=“张”；
+			var lastName=“三”；
+			var fullName=firstName+lastName；
+			
+	3》注释
+		能够使代码更具有可读性
+		方便维护
+		// 单行注释
+		/**/ 多行注释
+	4》语句
+		建议每个语句后以分号结尾
+		不以分号结尾，浏览器js解析器确定代码结束位置
+
+8、变量的声明
+	1》变量的声明
+		使用var操作符进行声明
+	2》变量的初始化
+		即为变量进行赋值
+		从右向左开始赋值
+	3》变量的更改
+	4》变量的使用
+	变量的声明与初始化：var a=“123”
+	多个声明变量：
+		
+9、关键字、保留字
+	1》关键字（在js中有特殊功能）
+		if	    else   while   for	 do      break    continue
+		switch  case   catch   try   throw    in       with
+		void    typeof   delete  this  new   var     function 
+		default instanceof  debugger   finally  
+	2》保留字（将来可能成为关键字）
+		int		float    double   const    char   short    long
+		class   byte     boolean  private   protected    package  super
+		abstract  export  static   import  throws    interface
+		transient  debugger  volatile  enum   final   native  public
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		

@@ -1,0 +1,159 @@
+		css3布局
+默认文档流
+	从上到下 从左到右的布局（平面）
+display position 、浮动布局 、伸缩盒布局
+1、display：
+			none 隐藏，不设置
+			inline
+			block
+			inline-black
+	
+2、position定位
+	position：
+			static
+			relative
+			absolute
+			fixed
+
+
+3、浮动布局
+	float：
+			left
+			right
+			none
+	脱离文档流
+	浮动元素和不浮动块级元素在一起：块级元素被浮动元素遮盖
+	浮动元素和不浮动的行内元素：不进行遮盖
+	
+	清除浮动：
+			clear：
+					left
+					right
+					both
+	浮动何时停止:
+		1 遇到父级元素的边缘时停止浮动
+		2 遇到其他浮动元素时停止浮动
+	
+4 伸缩盒布局（弹性布局）
+	flexible box
+	6个属性
+        flex-direction 排列方式
+        flex-wrap  是否换行
+        flex-flow ： 简写形式 对应flex-direction flex-wrap两个值
+        justify-content ：主轴对齐方式
+        align-items   ：交叉轴对齐方式
+        align-content：多行的对齐
+
+
+	1 在父级元素中：设置display：flex
+					自己元素中的所有浮动失效（清除浮动）
+					将一行中的使用元素成为item项目
+		
+				  
+		主轴：x轴
+		交叉轴：y轴
+				  
+		可以给所有item设置排列方式
+		也可以某一个item单独设置排列方式
+		如果两者同时存在，使用item的设置
+		
+		2 排列方式：		  
+			flex-direction：决定主轴的方向，即项目的排列方向
+						默认值为行级布局
+						设置item的布局方式
+						row： 行中显示，主轴左向右排列
+						row-reverse：行中显示，主轴右向左排列
+				  
+						column：在交叉轴上侧到下侧布局
+						column-reverse：在交叉轴下侧到上侧布局
+			flex-wrap：设置当父级元素宽度不够时，是否允许item进行换行显示
+					wrap：允许换行显示。
+						从交叉轴上侧到下侧开始排列
+					nowrap：不进行换行，将item进行压缩显示。默认。
+					wrap-reverse：允许item换行显示
+								从交叉轴下侧到上侧开始排列，第一行在下方
+			flex-flow：简写形式
+			flex-flow：flex-direction flex-wrap
+									
+		2 对齐方式
+			justify-content：定义item项目在主轴上的对齐方式
+					设置所有item在主轴上的排列方式
+						flex-start:主轴左侧向右侧依次排列（左对齐）
+						flex-end：主轴右侧向左侧依次排列（右对齐）
+						center：显示在主轴上 （居中）
+						space-around：如果父级有空白空间，将空闲空间均匀 分配给每个item
+									(每个项目两侧的间隔相等，项目之间的间隔比边框与项目的间隔大一倍)
+						space-between：如果父级有空白空间，将空闲空间均匀 分配给两个item元素之间
+										（两端对齐，项目之间的间隔都相等）
+			
+					
+			align-item：设置所有item项目在交叉轴上的对齐方式
+					flex-start：在交叉轴上侧向下侧进行排列（交叉轴起点对齐，即上方对齐）
+					flex-end：在交叉轴下侧向上侧依次排列（交叉轴终点对齐，即下方对齐）
+					center：显示在交叉轴轴中点（交叉轴中点对齐）
+					baseline：项目的第一行文字的基线对齐
+					stretch：默认值。如果项目未设置高度或者auto，将占满整个容器的高度
+			
+										
+			align-content：定义多根轴线（多行）的对齐方式。项目只有一根轴线将不会起作用
+					flex-star：交叉轴的起点对齐
+					flex-end；交叉轴的终点对齐
+					center：交叉轴的中点对齐
+					space-between：与交叉轴两端对齐，轴线之间的间隔平均分布
+					space-around：每根轴线的间隔都相等，轴线之间的间隔比轴线与边框的间隔大一倍
+					stretch：默认值。轴线占满整个交叉轴
+			
+		3 item项目属性
+				order：设置某一个item项目现实的位置
+						默认值为0；
+						数值越小，元素越靠前
+				align-self：在交叉轴上的排列方式，允许单个项目与其他项目不一样的对齐方式，
+							可覆盖align-item属性。
+							
+							auto：默认值。如果有父级元素，继承父级元素的排列方式。
+								  如果没有父元素则等同于stretch
+							flex-start：
+							flex-end：
+							center：
+				flex-grow：设置父级空间有空余时，item是否进行放大
+							默认值：0；表示不放大
+							整数值
+				flex-shrink：当父级空间不足时，item是否进行缩小显示
+							默认值：1；缩小
+							0：不缩小
+							整数值，不能为负值
+							2：缩小两倍
+				flex-basis:在分配剩余空间之前，元素在主轴方向上所占用空间的大小（设置宽度）
+		    简写：
+				flex：flex-grow flex-shrink flex-basis
+				  auto（1 1 auto）：放大 缩小 元素原本的大小
+				  none（0 0 auto）：不放大 不缩小
+				  默认元素不放大不缩小
+				  假设在某个item中设置了flex：1 100：
+							表示先分配100px给item宽度，
+							然后再将剩余的平均分布给每个item，
+							最后item的宽度为basis 100px宽度+平均分配后的宽度
+								
+		4 兄弟之间外边距合并
+			1 上面元素：margin-top
+				下面元素：margin-botom
+			都取正值时，取最大值
+			一方为负值时，直接进行加减操作
+			两者都为负值时，取绝对值，用0减去最大值
+				  
+			父子级之间的外边框合并问题
+				1 给子级元素加浮动属性float：left（除了none都可取值）
+				2 给子级元素添加定位position：absolute （脱离文档流，建议尽量不用，某个时候可以用，）
+				 3 给子级添加一个display：inline-block
+				 4 给父级添加overflow：hidden
+				 5
+				 6 将子级元素的margin属性改为父级的元素的padding属性
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  
+				  

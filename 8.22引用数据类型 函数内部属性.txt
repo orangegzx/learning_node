@@ -1,0 +1,312 @@
+
+	
+2、值传递和引用传递：
+	1》基本数据类型的变量---值传递
+		可以直接操作保存在变量中的实际的值；
+		参数传递的时候传递的是实际值。
+		
+		var a=“hello”；
+		var b=a;
+		b=3;
+		console.log(a);//hello
+		console.log(b);//3
+		
+		
+	2》引用数据类型----引用地址的传递
+		引用数据类型的变量：	
+			不能直接操作对象的内存空间，实际上是在操作对象的引用；
+			可以为引用类型变量添加属性和方法，也可改变和删除其属性和反法；
+			参数传递的时候传递的是引用地址。
+			发生在引用数据类型之间；
+			传递引用地址。
+	3》	object：
+			constructor:保存当前用户创建当前对象的函数
+					
+			toString:将对象转换为字符串
+				[object Object]
+			valueOf:对象本身
+		
+
+	栗子1：			
+		var obj={
+			name:"lisa",
+			age:12
+		} 
+		console.log(obj);     //Object { name: "lisa", age: 12 }  
+		console.log("constructor" in obj);  //true
+		console.log(obj.toString());   //[object Object]
+		console.log(obj.valueOf());    //Object { name: "lisa", age: 12 }  对象本身
+			
+	栗子2：
+		1>	// 引用传递 1
+			var o={
+				name:"lisa",
+				age:20
+			}
+			var o2=o;
+			o2.name="o2";
+			console.log(o); //Object { name: "o2", age: 20 }
+			console.log(o2); //Object { name: "o2", age: 20 }
+			//   o 、o2都指向同一个地址，当改变地址时，两者的指向不变，
+			//所以当通过一个对象改变属性值时，两个对象的属性值都改变
+			o.name="o";
+			console.log(o);//Object { name: "o", age: 20 }
+			console.log(o2);//Object { name: "o", age: 20 }
+			
+		2>// 引用传递 2
+			var a={
+				name:"lida"
+			}
+			function change(p){
+				p.name="terry";
+			}
+			console.log(a);//{ name: "lida" }
+			change(a);
+			console.log(a);//{ name: "terry" }
+			
+		3>// 引用传递 3
+			var b={
+				name:"lida"
+			}
+			function change2(p){
+				p={
+					name:"terry"
+				};
+				return p;
+			}
+			 console.log(b);//{ name: "lida" }
+			 var r=change2(b);
+			 console.log(r);//{ name: "terry" }
+			  
+		
+		
+		4>
+			var obj={
+				name:"terry",
+				age:12
+			}
+			function changeA(o){
+				o.name="一休";
+				return o;//返回就会更改，没有return 就不会更改，即传递地址
+			}
+			function changeB(p){
+				p.name="比巴卜";
+				return p;
+			}
+			console.log(obj);//Object { name: "terry", age: 12 }
+			var obj1=changeA(obj);
+			// changeA(obj);
+			//obj1等于修改后的obj，两者执行相同的地址，修改地址，两者hi跟着改变，两者指向的值都相等
+			console.log(obj);//Object { name: "一休", age: 12 }
+			console.log(obj1);//Object { name: "一休", age: 12 }
+
+			 changeB(obj);
+			 console.log(obj);//Object { name: "比巴卜", age: 12 }
+			 
+3、函数内部属性
+	1》arguments：类数组对象
+		指向当前的实参的索引与参数值
+		包含着传入函数中arguments对象还有一个callee的属性，
+		用来指向这个拥有arguments对象的函数
+	
+		1>length：形参个数，如栗子1.
+		2>callee：指向包含当前arguments的函数，可用于递归函数,arguments.callee,如栗子2.
+		
+		栗子1：function add(a,b){
+				console.log(a,b);//1 2
+				console.log(arguments);//Arguments { 0: 1, 1: 2, 2: 3, 3: 4} 
+				for(var key in arguments){
+					//获取arguments指向的实参值：arguments[];
+					console.log(key+":"+arguments[key]); //0:1 1:2 2:3 3:4 arguments指向当前的实参的索引和参数值
+				}
+
+				}
+			add(1,2,3,4);//1 2
+						//Arguments { 0: 1, 1: 2, 2: 3, 3: 4} 
+						//0:1 1:2 2:3 3:4 arguments指向当前的实参的索引和参数值
+			console.log(add.length);//2 形参的长度
+			
+		栗子2：（arguments.callee）
+			function digui(e){
+				if(e<2){return 1;}
+				return e*arguments.callee(e-1);
+			}
+			var r=digui(5);
+			console.log(r);//120
+			
+	2》this
+		指向函数赖以执行的环境对象
+		this所在的函数，谁调用，this指向谁；
+		this在函数调用时确定；
+		一旦确定，不能更改。
+	
+		栗子1：
+			var obj={
+            name:"a",
+
+			};
+			var obj2={
+				name:"b"
+			};
+			function sum(){
+				// this.name="lisa";
+				var name="lisa";
+				console.log(this.name);
+			}
+			obj.sum=sum;
+			obj2.sum=obj.sum;
+			obj2.sum();//b
+			console.log(obj);//Object { name: "a", sum: sum() }
+			console.log(obj2);//Object { name: "b", sum: sum() }
+		
+		
+		栗子2：
+			funciton add(){
+				console.log(this);
+			}
+			add();//this--》window
+			
+		
+		栗子3：
+			var person={
+				name:"lisi",
+				add:function(){
+					console.log(this.name);
+				}
+			};
+			person.add();//this->person
+		
+		栗子4：
+			var person={
+				name:"lisi"
+			};
+			var add=funciton(){
+				console.log(this);
+			}
+			person.add=add;
+
+			person.add();//this-->person
+			add();//this-->window
+		
+		
+		栗子5：
+			var obj={
+				name:"lisa",
+				o:{
+					name:"terry",
+					add:function(){
+						console.log("o:"+this.name);
+					}
+				},
+				add:function(){
+					console.log("person:"+this.name);
+				}
+			};
+			obj.add();//指向lisa
+			obj.o.add();//指向rerry
+		栗子6：
+			var name="lisi";
+			function test(){
+				console.log(this.name);
+			}
+			var obj2={
+				name:"a",
+				sayName:function(m){
+					console.log(this.name);
+					m();
+				}
+			}
+			obj2.sayName(test);//a lisi
+		
+		
+		栗子7：
+			window.color = "window";
+			  var person = {
+				color:"person"
+			  };
+
+			  function sayColor(){
+				alert(this.color);
+			  }
+			  //sayColor();  //window对象调用，所以弹出 "window"
+			  person.sayColor = sayColor; //将该方法赋给person对象
+			  person.sayColor();//使用person对象调用该方法，弹出"person"
+		
+		栗子2：对象中有其他函数调用其他函数时
+			var color = "orange"; 
+			window.color = "red";
+			
+			function sayColor(){
+				var color = "pink";
+				console.log(this.color);    
+			}
+			var person = {
+				color:"blue",
+				add:function(e){
+					 e();
+					 console.log(this.color);//bule 
+				}
+			};
+			sayColor(); //red
+			person.sayColor = sayColor;
+			person.sayColor(); //bule
+			console.log("\n");
+			person.add(sayColor);// red blue
+								//person调用add add里的this指向person，所以为bule；
+								//而add里的函数执行的环境是window，所以为red).
+			  
+			  
+4、函数属性
+	1》length:
+		表示函数希望接受的命名参数的个数，即形参的个数
+	2》prototype：
+		保存实例方法的真正所在。
+		在自定义引用数据类型以及继承时非常重要。
+5、函数方法
+	1》apply():
+		参数（在其中运行函数的作用域，参数数组（Array，arguments））
+	2》call():
+		参数（在其中运行函数的作用域，参数列表）
+	这两种方法作用都是在特定的作用域中调用函数，
+	实际上等于设置函数内部的this值。	
+
+6、函数的调用
+	函数声明好之后并不会直接允许，需要进行调用才能运行。
+	1》函数名（实参列表）
+	2》函数名.call（执行环境对象，实参列表）
+		不写参数默认window。
+		call（this）：当前作用域
+		有call时，由call的参数决定指向，不管是谁调用。
+	3》函数名.apply（执行环境对象，实参列表数组）。
+		参数要用数组表示，否则会出错。
+	
+	栗子：
+		   var person={
+				name:"lisi"
+			};
+			function add(a,b){
+				console.log(a+b);//3
+				console.log(this);//window
+				console.log(arguments);//
+
+			}
+			// add(1,2);
+			// person.add=add();
+			// person.add(1,2);
+			add.apply(window,[1,2]);//3 window   { 0: 1, 1: 2, 等 2 项… }
+			console.log("\n");
+
+			add.apply(person,[1,2]);//3 object{name:"lisi"}  { 0: 1, 1: 2, 等 2 项… }
+			console.log("\n");    
+
+			add.apply(this,[1,2]);//3 window   { 0: 1, 1: 2, 等 2 项… }
+			console.log("\n");
+
+			
+			add.call(window,2,3);//5 window  { 0: 1, 1: 2, 等 2 项… }
+			console.log("\n");
+
+			add.call(person,2,3);//5 object{name:"lisi"}  { 0: 1, 1: 2, 等 2 项… }
+			 console.log("\n");
+
+			 add.call(this,2,3);//5 window  { 0: 1, 1: 2, 等 2 项… }

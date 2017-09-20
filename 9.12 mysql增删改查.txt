@@ -1,0 +1,240 @@
+
+	9.12 mysql增删改查
+	
+
+	insert
+	delete
+	update
+	select
+	
+	
+	1》insert
+		insert into 表名[（列1，列2...）] values(值1，值2...)
+		如果没有指定列名，values中的值必须与表结构中的列一一对应；
+		如果指定了列名，values中的值必须和指定列一一对应；
+			如：insert into student values();
+			
+			
+	2》delete
+		delete from 表名 where子句
+		delete from student where gender = '男';
+		
+	3》update
+		update 表名 set 列名1=值1，列名2=值2 where子句
+		employees(id,name,salary)
+		update employees set salary = 6000
+		where name = '张三'
+		
+		
+	4》select
+		select 列名 from 表名1 as a1，表名2 as a2	
+		where 
+		group by #group by放在where下面 意为按照哪列来分组显示 group by student.name 按照学生姓名分组显示；
+		having  //分组里面的条件，配合分组使用 从分组中筛选 group by student.name having student.name='露西',筛选露西的信息；
+		order by //排序 desc/asc（升序/降序）
+		
+	数据模拟
+	1. 开班（向class表中插入班级信息）----------------------class（
+		insert into clazz values(null,'web1701','17-7-1',null);
+		insert into clazz(name,createDate) values('web1702','17-7-1');
+		insert into clazz(name,createDate) values('jd1701','17-7-1');
+		insert into clazz(name,createDate) values('jd1702','17-7-1');
+		insert into clazz(name,createDate) values('jd1703','17-7-1');
+	2. 招聘班主任-----------------------------------------teacher（ID，name tel）
+		insert into teacher values(null,'terry','18812344321');
+		insert into teacher values(null,'larry','18812344322');
+		insert into teacher values(null,'tom','18812344323');
+		insert into teacher values(null,'jacky','18812344324');
+	4. 为班主任分班 --class里的teacher_id;
+		update clazz set teacher_id = 2 where id = 2
+		update clazz set teacher_id = 3 where id = 3;
+		update clazz set teacher_id = 4 where id = 4;
+		update clazz set teacher_id = 4 where id = 5;
+	5. 查看每个老师负责的班级--teacher负责的班级class.name-----join on 与 where
+		select t.name,c.name
+		from clazz as c,teacher as t
+		where c.teacher_id = t.id;
+		=>
+		select t.name,c.name
+		from clazz as c join teacher as t
+		on c.teacher_id = t.id;
+	6. 准备课程体系=---------------------------------course（id ，name credit）
+		insert into course values(null,'Java',4);
+		insert into course values(null,'unix',2);
+		insert into course values(null,'html',2);
+		insert into course values(null,'css',3);
+		insert into course values(null,'Javascript',4);
+		insert into course values(null,'mysql',3);
+		insert into course values(null,'node',3);
+	7. 学生报到----------------------------------------student（id，name，gender，birth，class_id）
+		insert into student values(null,'张三','男','96-3-1',1);
+		insert into student values(null,'李四','男','96-4-2',1);
+		insert into student values(null,'王五','男','92-9-1',1);
+		insert into student values(null,'赵六','男','94-1-4',1);
+		insert into student values(null,'薛七','女','96-2-1',2);
+		insert into student values(null,'刘八','男','98-3-3',2);
+	8. 学生选课-------studentCourse(id,grade,student_id,course_id)
+		insert into studentCourse values(null,null,1,1);
+		insert into studentCourse values(null,null,1,2);
+		insert into studentCourse values(null,null,1,3);
+		insert into studentCourse values(null,null,1,4);
+		insert into studentCourse values(null,null,1,5);
+		insert into studentCourse values(null,null,1,6);
+		insert into studentCourse values(null,null,1,7);
+		insert into studentCourse values(null,null,2,1);
+		insert into studentCourse values(null,null,2,2);
+		insert into studentCourse values(null,null,2,3);
+		insert into studentCourse values(null,null,2,4);
+		insert into studentCourse values(null,null,2,5);
+		insert into studentCourse values(null,null,3,1);
+		insert into studentCourse values(null,null,3,2);
+		insert into studentCourse values(null,null,3,3);
+		insert into studentCourse values(null,null,3,4);
+
+	9. 查询选修了Java课程的学生有哪些
+		course studentCourse student
+
+		select s.name, c.name
+		from course as c,studentCourse as sc,student as s
+		where sc.student_id = s.id
+		and sc.course_id = c.id
+		and c.name = 'mysql';
+
+	10. 查询课程的学分有几种
+		select distinct credit from course;
+	11. where子句
+		=
+		<>
+		>
+		>=
+		<
+		<=
+		like	模糊查询 Java  // ‘j%’j开头；‘%j%’包含j字母的；
+		
+		between	and//在。。之间
+		in(集合):(2,3)表示2和3 ，不是2到3之间；
+		
+		and 条件连接
+		or	或条件
+		
+
+		1) 查询所有课程名称以J开头的课程
+			select * from course where name like 'J%'
+		2) 查询所有课程名称中包含m的课程
+			select * from course where name like '%m%'
+		3) 查询出生日期在93-1-1 ~ 94-12-31出生的所有学生
+			select * 
+			from student 
+			where birth between '93-01-01' and '94-12-31'
+
+		4) 查询在95-1-1之前出生的所有的男学生
+			select * 
+			from student
+			where birth < '95-01-01'
+			and gender = '男';
+		5) 查询出学分为2,3的所有课程信息
+			select * 
+			from course
+			where credit in (2,3);
+
+		6) 查询出学分小于所有课程平均学分的课程
+			select * from course where credit < (select avg(credit) from course);
+			
+	12. 分组查询
+		group by是分组查询，将结果集按照某一规则进行细分。一般与聚集函数一同使用
+
+		1) 聚集函数
+			count()	统计数量
+			avg()	平均分
+			max()	最大
+			min()	最小
+
+			1. 查询出学生表中女生的数量
+				select count(*)
+				from student
+				where gender = '女';
+			2. 查询出年龄最小的学生信息
+				select * 
+				from student
+				where birth = (
+					select max(birth)
+					from student
+				);
+		2) group by
+			1. 模拟考试
+
+			2. 查询出张三同学所有选修课的平均分
+				select s.name ,avg(sc.grade)
+				from student as s,studentCourse as sc ,course as c
+				where s.id = sc.student_id
+				and c.id = sc.course_id	#查看到每个学生的选修关系
+				and s.name = '张三';
+				#筛选出张三同学的选修关系
+
+				=》
+
+				select s.name ,avg(sc.grade)
+				from student as s,studentCourse as sc ,course as c
+				where s.id = sc.student_id
+				and c.id = sc.course_id	
+				group by s.name
+				having s.name = '张三';
+				
+			3. 筛选出张三同学选修课成绩低于他自己所有选修课平均分的课程???
+			
+	13. 排序
+		一般用于sql语句的最后，根据某一列进行排序，默认是升序排列
+		order by 列名 desc/asc
+		
+		如：按照student表中birth升序排序
+			select * from student order by birth desc；
+			
+		如：按照student表中birth降序排序后，对相同birth按照class_id进行升序排序；
+			select * from student order by birth asc，class_id desc；
+
+	14. 连接查询
+	
+		如：查询出班主任和班级之间的所有关系：
+			1》普通查询：只能查询到有分配到班级的老师，没有分配班级的老师不显示
+				select teacher.name,class.name from teacher ,class 
+				where teacher.id=class.teacher_id;
+				
+				==select teacher.name,class.name from teacher join class 
+				  on teacher.id=class.teacher_id;
+			
+			2》左外连接查询：所有老师与班级的关系都可以查到，包括没有分配班级的老师；
+				left outer join
+					select teacher.name,class.name 
+					from teacher left outer join class 
+					on teacher.id=class.teacher_id;
+				
+
+
+			3》右外连接查询：right outer join	
+				select teacher.name,class.name 
+				from teacher  left outer join class 
+				on teacher.id=class.teacher_id;
+					
+					
+					
+					
+					
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				
+				

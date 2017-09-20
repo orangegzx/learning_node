@@ -1,0 +1,610 @@
+
+一、数组array
+
+	1、特性：
+	
+		1》每一份都可以保存任何类型的数据。
+		2》数组的大小是可以动态调整
+		3》数组的length属性：可读可写，
+			可通过设置length的值从数组的末尾移除项或向数组添加新项。
+			
+	2、创建数组：
+	
+		1》构造函数 new
+			var arr=new Array（）；
+			var arr=new Array（20）；//预先指定数组的大小
+			var arr=new Array（“terry”，"tom","boss"）；//传入参数
+			
+			new可省略，建议不省略。
+		2》数组字面量表示法
+			var arr=["","",""];
+			var arr=[];//空数组
+			
+
+	3、访问数组元素
+	
+		1》索引小于数组的长度，返回对应的值
+		
+		2》索引大于数组的长度，数组长度自动增加到 该索引值加1的长度。
+			var arr=new Array(6,1,2,5);
+			arr[5]=5;
+			console.log(arr);//Array [ 6, 1, 2, 5, <1 个空的存储位置>, 5 ]
+							//length=6
+							
+		一个数组最多可以包含4 294 967 295个项
+		
+	4、数组检测
+	
+		1》typeOf（）：
+			typeOf（arr）；//object 因为数组也是一个对象，索引为视为属性，元素值视为属性值
+		
+		2》Array isArray（）
+			Array isArray（arr）:判断arr是否是数组类型
+		
+		3》instanceof Array ：判断某个值是否是数组
+			arr instanceof Array //在同一个全局作用域下可以这么判断
+			instanceof操作符可以用来判断某个构造函数的prototype属性所指向的對象
+			是否存在于另外一个要检测对象的原型链上。
+			
+			
+	5、数组序列化
+		即转换数组为字符串
+		数组继承Object方法，并且对这些方法进行了重写。
+	
+		1》JSON.stringify（）；数组序列化。
+			将数组序列化，将数组转为字符串。
+			console.log(JSON.stringify(arr));//[6,1,2,5,null,5]
+		
+		2》JSON.parse(序列化的数组)：
+			反序列化。即将序列化的数组还原为数组表示。
+			console.log(JSON.parse(JSON.stringify(arr)));// Array [ 6, 1, 2, 5, null, 5 ]
+	
+	
+	6、常用方法：
+		1》toString（）；默认情况会以逗号分隔字符串的形式返回数组项。
+						 返回对象的字符串表示[object Object]；
+						 重写父级Object中的toString()
+						 
+						 把数组转换为字符串，并返回结果
+						 
+			arr.toString();//[object Object]
+			console.log(arr.toString());//6,1,2,5,,5
+			 
+			 
+		2》toLocaleString():返回对象的字符串表示；输出结果与toString()一样，
+							把数组转换为本地数组，并返回结果
+			console.log(arr.toLocaleString());//6,1,2,5,,5
+		
+		3》toSourse():返回该对象的源代码。
+			返回一个新的数组
+			object.toSourse（）；
+			
+			
+		
+		3》valueOf()：返回对象的字符串，数值，布尔值的表示
+						返回数组对象的原始值。
+			 console.log(arr.valueOf());//Array [ 6, 1, 2, 5, <1 个空的存储位置>, 5 ]
+			 
+		4》constructor()：保存用户创建当前对象的函数，有助于确定给定对象的类型。
+			console.log(arr.constructor());//Array [  ]
+			
+		5》join（）：使用指定的字符用来分隔数组项
+			arr.ioin("-");
+		      console.log(arr.join("-"));//6-1-2-5--5
+
+		*** toString()和toLocaleString()：
+			  注意，在输出的结果中，数组值的周围没有方括号或者其他定界符。
+				join()也没有。JSON.stringity(对象)有方括号，反序列化也有中括号。
+				var arr=new Array(6,1,2,5);
+				console.log(arr.toString());//6,1,2,5,,5
+				console.log(arr.toLocaleString());//6,1,2,5,,5
+				console.log(arr.join("-"));//6-1-2-5--5
+				console.log(JSON.stringify(arr));//[6,1,2,5,null,5]
+			
+	7、栈和队列
+	
+		1》栈LIFO：后进先出，先进后出；在数组的末端进行操作
+			1>push():在数组末尾添加新的项；
+					 接收任意类型的参数；
+					 返回数组的长度；
+					 改变原数组
+					 
+			2>pop():在数组的末尾移除最后一项；
+					减少数组的length值；
+					返回移除的项。
+					改变原数组
+					
+		2》队列FIFO:先进先出；在数组的前端进行操作
+			1>shift():移除数组的第一个项并返回该项；
+					  同时数组的长度-1。
+					  以数组形式返回移除的项。
+					  改变原数组
+					  
+			2>unshift():在数组的前端添加任意个项，
+					    并返回新的数组的长度。
+						返回新的数组
+						改变原数组
+		
+	
+	8、截取方法（数组方法）//不改变原数组
+	
+		1》contact（）：数组拼接，不改变原数组 ，返回一个新的数组。
+			将接受的参数添加到数组的末尾。
+			
+			接收两个参数：两个数组拼接
+				var a=[1,2],b=[3,4];
+				var r=a.contact(a,b);//在数组a的末尾添加b数组的项
+				console.log(r);//[1，2，3，4]
+				console.log(a);//[1，2] 不改变原数组
+				
+			接收一个参数：
+				var a=[1,2]；
+				var r=arr.concat("hello");
+				console.log(r);	//[1,2,"hello"]
+				console.log(a);//[1，2] 不改变原数组
+				
+		2》slice():数组切割，不改变原数组。返回数组形式的切割的项。
+			即选择指定范围的元素，结合其他操作对该范围的数组项进行操作。
+			接收一个参数：从该位置开始到当前数组末尾的所有项（包含这个位置的项）；
+			接收两个参数：起始位置，结束位置；从起始位置开始到结束位置之间的项，
+						  包括起始位置，不包括结束位置；
+			参数为空时0：返回原数组的复制数组。
+			
+						  
+		3》	splice():对数组的中部进行操作，改变原数组。
+			没有参数时，返回空数组。
+			0：返回值为空数组。
+			
+			删除：指定两个参数（删除的起始位置，要删除的项数），返回删除的项。
+					splice(2,3):从第二个位置开始，删除后面的三项，包括起始位置的项。
+					
+			插入：指定三个参数（起始位置，0，要插入的任意数量的项），返回一个空数组。
+					
+			替换：指定三个参数（起始位置，要删除的项，要插入的任意数量的项），返回一个数组形式的删除的项。
+					数组的长度根据替换后的长度增减.
+					splice(3,2,"hello","hi");//从第三个位置开始删除两个，用“hello”“hi”放入删除的位置
+					splice（3,2）：只删除，不插入。
+	
+	
+	9、索引方法
+		1》indexOf():从数组开头向后找
+			使用全等操作符，所以参数要特别注意；
+			找不到元素返回-1；
+			第一个参数为要找的项，第二个参数（可选）为索引开始的位置；
+		
+			返回值为索引
+			有相同的元素时：找到第一个元素之后直接返回，不进行向后查找。
+			arr.indexOf（项）：返回值为索引，找不返回-1；
+			arr.indexOf（项，指定索引位置）；从数组指定的下标开始寻找项
+				arr.indexOf（5,3）；从数组下标3开始寻找5的项。
+		
+		2》lastIndexOf():从数组末尾向前查找(下标从左往右为0开始，下标位置不变)
+			使用全等操作符，所以参数要特别注意；
+			找不到元素返回-1；
+			从后向前遇到第一个匹配元素后，返回当前元素的索引下标（从左向右设置的索引）
+			返回值为索引
+			第一个参数为要查找的项，第二个参数（可选）为开始查找的索引的位置
+			console.log(arr.lastIndexOf(5,2)):从数组下标第2个位置开始往前查找值为5的项。
+	
+	
+	10、排序（数组方法）
+	
+		1》reverse():反转数组项的顺序
+		
+		2》sort():
+		
+			默认排序：该方法会调用每个数组项的toString()的方法，然后按字符序列排序。
+				仅有字符串：按照ASCII码从小到大排序，如果第一个字母相同，进行第二个字母比较，以此类推；
+				仅有数值：按照ASCII码从小到大排序。
+				包含字符串与数值：按照ASCII码进行从大到小排序，数值的ASCII码小于字母的ASCII码。
+			
+			自定义排序：
+				1>该方法可以接受一个比较函数作为参数，比较函数有两个参数；
+				
+				2>如果第一个参数位于第二个参数之前，返回-1；
+				
+				3>如果第一个参数位于第二个参数之后，返回1；
+					
+					规则：
+					对于两个元素：
+						从小到大：
+							x<y,return -1;
+							x>y return 1;
+							x==y,return 0;
+						从大到小：
+							x<y,return 1;
+							x>y return -1;
+							x==y,return 0;
+							function compare（x,y）{
+								if(x<y)
+									return -1;
+								else if(x>y)
+									return 1;
+								else
+									return 0;
+							}
+	
+	11、迭代方法
+		every(function(){}，this), some(function(){}), for in(var i in arr){}, for of(var i in arr){}, forEach(functio(3个){}),
+		filter(functio(3){}), sort(functio(){}), map(functio(){}), reduce(functio(只能2个参数){}),
+		
+		for...in、for...of都是不接受函数
+		其他的接收函数
+		for in ，for of ，forEach，map都是遍历数组，
+		区别是forEach、map是遍历的是数组中的所有元素，
+		并对每个元素执行函数方法，执行完毕返回一个新的数组。
+		
+		1》every()
+			返回值为Boolean；
+			对数组中的每一项运行给定的函数，
+			如果该函数对每一项都返回true，则返回true，
+			只要有一项不满足给定函数，则返回false。
+			
+			every(function(){}，this)：
+				第一个参数：想要循环的回调函数
+					function(item ,index,arr)
+						包含的三个参数：
+							第一个：：每一次循环的元素
+							第二个：当前循环元素的小标
+							第三个：当前数组
+				第二个参数：赋值给回调函数的this值
+				返回值：
+					Boolean
+					当所有的元素均满足条件时，返回true；
+					有任一元素不满足条件时，返回false。
+				
+			
+			function get(arr){
+				return arr.every(function(item){
+					if(item>1){
+						return item;
+					}
+
+				})
+			}
+			var arr=[];
+			for(var i=1;i<=10;i++){
+				arr.push(i);
+			}
+			var r=get(arr);
+			console.log(r);//false//当item>=1时，返回true
+		
+		2》some():
+			返回值：Boolean；
+			对数组每一项运行给定的函数，
+			如果该函数对任一项返回true，则返回true，
+			即只要数组中有一项满足给定的函数，则返回true。
+			如果所有的项都不满足时 则返回false。
+			some(item ,index,arr)
+			
+			 function get(arr){
+				return arr.some(function(item){
+					if(item>9){
+						return item;
+					}
+
+				})
+			}
+			var arr=[];
+			for(var i=1;i<=10;i++){
+				arr.push(i);
+			}
+			var r=get(arr);
+			console.log(r);//true//当item>10时 返回false
+			
+			
+		3》for in
+			应用于对象，包括对象，数组。
+			（1）可以把一个对象的所有属性名依次循环出来：
+				var a={
+					name:'jack',
+					age:20,
+					city:'Beijing'
+				};
+				for(var key in a){
+					alert(key);//打印对象的属性
+					//console.log(a[i]);//打印对象的属性值
+					}
+			要过滤对象继承的属性，用hasOwnproperty（）实现：
+				var a={
+					name:'jack',
+					age:20,
+					city:'Beijing'
+				};
+				for(var key in a){
+					if(a.hasOwnproperty(key)){
+						alert(key)
+					}
+				}			
+				
+				
+		4》for of(){}：
+			与for...in的区别：
+				for...in循环遍历的实际是对象的属性名。
+					一个数组实际也是一个对象，他的每个元素的索引被视为一个属性。
+						
+				当手动为数组对象添加额外的属性后，for...in循环会遍历新添加的属性。
+				但是for...of则完全修复这个问题，只循环遍历集合本身的元素。即原数组，不包含添加的新的项
+				var a=[a,b,c]
+				for(var i of a){
+					   document.write(i);
+					   }
+				
+				
+		5》forEach(function(element, index, array){})
+			每次迭代就自动回调该函数。
+			对数组中的每一行给定的函数，没有返回值。
+			常用来遍历元素
+			不改变原数组
+			与map 、for in类似。
+			
+			没有返回值，仅仅是遍历数组中的每一项，
+			不对原来数组进行修改；
+			但是我们可以自己通过数组的索引来修改原来的数组；
+			每一个array实例都能调用该方法。
+			
+			
+			
+			（1）以Array为例：
+				var a = ['A', 'B', 'C'];
+				a.forEach(function (element, index, array) {
+					// element: 指向当前元素的值
+					// index: 指向当前索引
+					// array: 指向Array对象本身
+					alert(element);
+				});
+			
+			（2）Set与Array类似，但Set没有索引，
+				 因此回调函数的前两个参数都是元素本身。
+				
+				var s = new Set(['A', 'B', 'C']);
+				s.forEach(function (element, sameElement, set) {
+					alert(element);
+				});
+			
+			（3）Map的回调函数参数依次是value、key、map本身。
+				var m = new Map([[1, 'x'], [2, 'y'], [3, 'z']]);
+				m.forEach(function (value, key, map) {
+					alert(value);
+				});
+			
+			(4)如果对某些参数不感兴趣，由于JavaScript的函数调用不要求参数必须一致，
+				因此可以忽略。例如只需要获取Array和element。
+				var a=['A','B','C'];
+				a.forBach(function(element){
+					alert(element);
+				});
+		
+		
+		7》map()：映射
+			定义在数组中，不会改变原始数组，
+			遍历的是数组中的所有元素，并对每个元素执行函数方法，
+			
+			执行完毕返回一个新的数组。
+			
+			常用与元素类型之间的转换，字符串的数组转为number类型的数组
+					（方法里的js代码为return parseInt（i））；
+				书写：array.map(funtion（）{})
+					或者：function name（）{} 
+							 array.map（name）；
+		
+			map:和forEach非常相似，都是用来遍历数组中的每一项值的，
+			用来遍历数组中的每一项；
+			
+			map的回调函数中支持return返回值；return的是啥，
+			相当于把数组中的这一项变为啥（并不影响原来的数组，
+			只是相当于把原数组克隆一份，把克隆的这一份的数组中的对应项改变了）；
+		
+		8》reduce()
+			数组的reduce（）是把一个函数作用在这个数组的元素上，不改变原数组.
+				必须接受两个参数。取得是数组的元素进行计算。
+				reduce把结果继续和序列的下一个元素做累计，即函数回调。
+				书写：return arr.reduce(funtion(x,y){})
+				或者先定义function name（x，y）{}
+					再调用 arr.reduce(name);
+				
+			两个参数：
+			回调函数：
+				四个函数参数：pre item index arr
+					当reduce 的第二个参数不写时，pre值第一次为当前数组的第一个元素，item为数组的第二个元素；
+					当reduce的第二个参数写了时：pre值的第一次为reduce的第二个参数。
+					如果回调函数没有返回值，pre从第二次开始为undefined，若果有返回值，将返回值赋给pre。
+					
+					
+		map() 与reduce() 实例
+			(1)字符类型的数组转为number类型的数组：
+				['1','3','5','7','9']------------------------[1,3,5,7,9]
+				function a（arr）{
+					function b(i){return parseInt（i）;}
+					return arr.map(b);
+				}
+				console.log(a(["1","3","5",“7”,"9"]));
+				
+				
+			(2)number类型数组转为整数：[1,3,5,7,9]------------13579
+				function a（arr）{
+					function b（x,y）{return x*10+y}
+					return arr.reduce(b);
+					//上面两句话的简写
+					return arr.reduce(funtion（x,y）{return x*10+y;})
+				}
+				console.log(a([1,3,5,7,9]));
+				
+				
+			 (3)字符串的数组转为整数：['1','3','5','7','9']-----13579
+				function a(arr){
+						var r=str.map(function (i){return parseInt（i）});
+						return r.reduce(funtion（x,y）{return x*10+y });
+				}
+				console.log(a(['1','3','5','7','9']));
+				
+				
+			（4）字符串转为整数：'13579'-----------------------13579
+				function a（s）{
+					var array=[];
+					for(var i of s){ i=i-0;array.push(i);}
+					var result=array.reduce(function(x,y){return x*10+y});
+					return result;
+				}
+				console.log(s('13579'));
+				
+				
+				
+			上诉实例完整代码
+			//1 字符数组转为number数组['0','1','2','3','4']--------->[1,2,3,4]
+					function string1int(arr){
+							function a(i){return parseInt(i)}
+							return arr.map(a);
+					}
+					console.log("字符类型数组转为number类型数组");
+					console.log(string1int(['0','1','2','3','4']));
+					console.log("\n");
+					
+			//2 把number类型数组变为整数:[1,3,5,7,9]---13579
+			function arrint(arr){
+					function arrint1(x,y){
+							return x*10+y;
+					}
+					return arr.reduce(arrint1);
+					// 上面的简写
+					// return arr.reduce(function(x,y){return x*10+y})
+			}
+			console.log("数组转为整数：");
+			 console.log(arrint([1,3,5,7,9]));//13579
+			//  var a=[1,3,5,7,9];
+			//  var b=arrint(a);
+			// console.log("数组转为整数：");
+			//  console.log(b);
+			console.log("\n")
+
+			// 3 将字符串变为整数，先把字符串转为number类型的数组，再把数组利用reduce转为
+			// "13579"--->[1,3,5,7,9]----->13579
+					function string2int(s){
+							var array=[];
+							// 遍历字符串s
+							for(var i of s){
+									i=i-0;
+									// 字符串变为数组
+									array.push(i);
+							}
+							console.log("字符串转为number类型数组");                
+							console.log(array);
+							var r=array.reduce(function(x,y){ return x*10+y; });
+							return r;
+					}
+					var a="13579";
+					var b=string2int('13579');
+					console.log("原字符串为：");
+					console.log(a);
+					console.log("字符串转为number：");
+					console.log(b);//13579
+					console.log("\n");
+
+
+			//4 将数组里的字符串转为整数：字符串数组-----number数组-----求整
+			// ['1','3','5','7','9']--->13579
+					 function str2int(arr){
+							
+							var r=arr.map(function(i){return parseInt(i)});
+							return r.reduce(function(x,y){return x*10+y}); 
+					}
+					var a=str2int(['1','3','5','7','9']);
+					console.log("字符串的数组转为整数即求积：");        
+					console.log(a);
+					console.log("\n");
+
+			//5 把数组里字符串的首个字母都大写，输出新的数组
+			// ['gbwile','HHUIj','125kh','2516']---->[ "Gbwile", "Hhuij", "125kh", "2516" ]  reduce.js:46:9
+
+					
+					function normallize(arr) {
+						   var r=arr.map(function (str) {
+							//  把全部字符转串的全部转为字符型，因为touppercase只对字符有作用
+								   var a=str.toString();
+							//        把全部字母变为小写字母
+								   var b=a.toLowerCase();
+							//        截取每个字符串的首位字母并转为大写
+								   var a1=b.substring(0,1).toUpperCase();
+							//        截取第一位后的所有字母
+								   var b1=b.substring(1);
+								   var string2=a1+b1;
+								   return string2;  
+						   }) 
+							return r;       
+					}
+					var a=['gbwile','HHUIj','125kh','2516'];
+					var b=normallize(['gbwile','HHUIj','125kh','2516']);
+					 console.log("原数组数组：");
+					 console.log(a);
+					console.log("转换后的数组：");
+					console.log(b);
+
+		
+		6》filter(function(element, index, self){}):关键在于实现一个“筛选”函数
+		
+			与map（）相似，都是接收一个函数，
+			不同的是，filter（）把传入的函数依次作用于每个元素，
+			然后根据返回值是true还是false决定保留还是丢弃该元素。
+			用于把数组的某系元素过滤掉，就是说用于在数组中筛选元素。
+			对数组中的每一项运行给定的函数，会返回满足该函数的项组成的数组，即返回一个新的数组
+			不改变原数组。
+			filter(function(element, index, self){})
+			filter接收的函数可以多个参数，
+			通常仅使用第一个参数，表示数组的某个参数；
+			也可以接受两个参数，表示元素的位置和数组本身。
+			
+			利用filter，可以巧妙的去除数组的重复元素。
+			例如利用filter筛选出素数
+				 function pries(arr){
+					/*function a(e){
+						if(e<=2){return false;}
+						for(var i=2;i<e;i++){
+							if(e%i==0){return false;}
+						}
+						return true;
+					}
+					return arr.filter(a);
+					*/
+					return arr.filter(function (e){
+						if(e<=2){return false;}
+						for(var i=2;i<e;i++){
+							if(e%i==0){return false;}
+						}
+						return true;
+						})
+				}
+				var arr=[];
+				for(var i=1;i<=100;i++){arr.push(i);}
+				var result=pries（arr）;
+				console.log(result       );
+		
+		
+		
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+					
+			
+		

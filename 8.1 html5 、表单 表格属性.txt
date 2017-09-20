@@ -1,0 +1,230 @@
+
+		html5 、表单 表格属性
+		
+		*HTML5新增标签
+		*布尔值属性
+		*表单from属性
+		*表单控件，包括input属性与属性值
+		*lable标签
+		*select标签
+		*textare标签
+		*marquee标签
+		
+	一、HTML5新增
+		1》新增标签：
+			header：
+			nav：
+			aside：	侧边栏
+			section：文章独立的一小部分
+					配合标题标签使用
+			article：文章主体
+			figure&figcaption：
+			footer：
+			address：声明作者
+
+			detail：open 展开收缩子元素
+			summery：标题
+			open：默认打开类型
+
+		2》新增表单元素：
+			progress：进度条
+				max：当前进度条的最大值
+				min：当前进度条的最小值
+				value：当前进度条的当前值，在min与max之间
+			
+			output：接受用户的输出
+					一般配合JS使用
+
+			meter：进度条
+			
+			max/min：设置当前meter的最大值和最小值
+				value：当前进度条所在值，在min与max之间
+				high：最高值，超过最高值时，进度条样式变化，警告色
+				low：最低值
+				optimum：最佳值
+			 
+			datalist：数据列表。配合单行文本框使用。下拉列表，可用于表单提示，单击时，在input中显示的value的值。list与id值一致
+				<input type=”text” list=”one”>
+				<datalist  id=”one”>
+					<option value=“”>1</option>
+					<option value=””>2</option>
+					<option value=””>3</option>
+				</datalist>
+
+		3》	type属性: （text/password/checkbox/radio/button/submit/reset/image/file/hidden）
+				日期空间不兼容火狐浏览器：
+			date:
+				datetime:
+				datetime-local
+				time：
+				week：	
+				month：
+				
+
+				number：
+						min/max：限制用户输入最小值最大值
+						value：默认值
+						step：步长，整数值
+				email：电子邮箱
+				range
+				search：搜索框
+				tel：电话
+				url：http://
+				color：调用本地拾色器
+				mail
+				
+
+	二、布尔值属性：
+		只有两种属性值：true  false
+		
+		四种表达方式：
+				key="key"
+				key=""
+				key="true"
+				key
+
+			ol列表
+			reversed
+			disabled
+			checked
+			selected
+			opened
+			
+	三、表单：与后台进行数据的交互
+		form属性：
+			
+		action：当前表单提交的位置
+			method：
+				get：轻量级数据，小于1k的数据
+				post：重量级数据，封装在请求体里面   
+				
+		target：    
+			name：表单名称
+			enctype：设置当前表单的编码格式
+					text/plain：不对特殊字符编码
+					multipart/form-data：不对字符编码
+					
+		type：
+		value：默认输入
+		formmethod
+		formaction
+		formectype：设置不同按钮的缇提交编码方式
+		formtarget
+		formnovlidate：设置当前表单不被验证，布尔类型
+		autofocus:默认聚焦，即打开网页时自动聚焦
+		require：提示表单必须填写，布尔类型
+		placeholder：给用户进行提示输入，一般用于搜索框
+		
+		form：	
+			pattern=“/d”:取值为正则表达式，用于表单验证
+					[0-9]*:不限长度的数字
+					[0-9]{1,}：长度大于1的数字，长度设置不能有空格
+					[0-9]{,10}：长度小于10的数字，长度设置不能有空格
+					[0-9]{1,8}：长度在1-8之间的数字
+			
+	 
+		想要关联form表单的id值;
+			<form action=”” id=”myform”>
+				<input type=’’submit’’>
+			</form>
+			<input type=”text” form=”myform”>
+
+		
+	四、表单控件：
+	
+		input属性：
+
+			1》	type
+			属性值：
+				text：当行文本框
+				password：密码框
+				checkbox：多选框。（name值可以一致也可以不一致）
+				radio：单选框（name一致，用lable时，lable内的for的值与radio中的name必须一致，checked为默认选中）
+				submit：提交按钮，value设置按钮名称
+				reset：重置按钮
+				button：普通按钮
+				image：src引入图片，alt替换当前图片的文本
+				file：上传文件
+				hidden：隐藏域
+
+			2》name：向后台传递数据
+				name=“name”
+					name=“用户输入值”
+			3》value：
+				按钮：给按钮设置名称
+				设置当前控件默认值
+			4》disabled：禁用当前控件，禁用组件的值不能被提交
+			5》checked ：单选框、复选框默认选中属性
+			6》maxlength：设置可以输入的字符的最大值
+			7》size：控制当前文本框的宽度
+			8》maxlength：控制用户所输入的字符个数
+			9》filedset：对多个控件和标签进行分组
+				legend：设置当前模块的标题
+				input*4
+
+	五、lable标签：将文字和空间进行绑定
+	
+		1》for与为设定标题的表单组件的id值一致
+			<lable for=“#id”>
+				篮球：<input type=“radio”id=“”>
+			<lable>
+
+		2》select标签：默认选中为selected；checkbox与radio默认选中为checked
+			下拉列表：
+				<select>
+					<option value=“sh”>上海</option>
+					<option value=“江西”>江西</option>
+					<option value=“nn”>南宁</option>
+				</select>
+
+		3》option属性：
+			selected—>option
+			
+		4》disabled：禁用某一个下拉元素
+			select属性:
+				name
+				id	
+				size:每次展示列表项的个数
+				multiple：布尔值属性，当前option是否可多选
+				（按住ctrl键进行多选）
+				size，multiple：只要使用其中任意一个，就改变了下拉列表的默认样式
+				disabled：禁用整个下拉列表，禁用组件的值不能被提交
+				selected：默认该项被选中
+				name：
+			1、	option有value值时，name属性值为value的属性值
+			2、	option没有value值时，name属性值为
+
+	五、<textarea>：默认换行
+		属性：	
+			col：列数
+			row:行数
+			wrap：设置当前文本框是否可以换行
+				off不换行；
+				hard：硬换行，换行元素一同被传送到服务器中；
+				soft：软换行，换行元素不被传送到服务器中。
+				
+			readonly：只读属性。布尔类型
+			disabled：禁用组件，禁用组件的值不能被提交
+			name：指定组件的名字，随着其值一同被提交到后台
+	六、<marquee>:
+		<marquee behavior=”” direction=””></maequee>
+		属性：
+			bgcolor：
+			width/height：
+			behavior：当前滚动的方式，默认为循环滚；
+				slid：只滚动一次；
+				scroll：循环滚；
+				alternate：来回滚动；
+				
+			direction：滚动方向	，默认从右往左
+				up/ down：下(上)上（下）
+				left/right：右（左）左（右）
+				
+			scrolldelay：延迟时间，毫秒为单位，默认为1000毫秒；
+			scrollamount：移动速度，单位为像素值；
+			loop：滚动次数
+				-1：无限循环
+
+
+
+				

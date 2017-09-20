@@ -1,0 +1,167 @@
+		
+			文档对象模型-Document类型
+			
+1、
+	JavaScript通过使用Document类型表示文档。
+	在浏览器中，document对象是HTMLDocument的一个实例，表示整个HTML页面。
+	document对象是window对象的一个属性，因此可以直接调用。
+	HTMLDocument继承自Document。
+	
+2、文档子节点
+	可以继承Node中所有的属性和方法
+	
+	属性：
+		1》documentElement
+			始终指向HTML页面中的<html>元素
+			
+			 var r=document.documentElement;//<html lang="en">
+			console.log(r);
+			
+			
+		2》body
+			知直接指向<body>元素
+			
+			var r=document.body;
+			console.log(r);//<body>
+
+		3》doctype
+			访问<!DOCTYPE>,浏览器支持不一样，很少使用。
+			
+			var r=document.doctype;
+			console.log(r);//[object DocumentType]
+			
+			
+		4》title
+			获取文档的标题
+			
+			r=document.title;
+			console.log(r);//my title
+		
+		5》URL
+			取得完整的URL
+			
+			 r=document.URL;
+			console.log(r);//file:///G:/briup/8.30/Document%20.html
+		
+		6》referrer
+			取得链接到当前页面的那个页面的URL，即来源页面的URL
+			
+		7》domain
+			取得域名。
+			并且可以进行设置，在跨域访问中经常会用到。
+		
+		8》images
+			获取所有的img对象，
+			返回HTMLCollection类数组的对象。
+			
+			r=document.images;//HTMLCollection [ <img>, <img>, <img> ]
+			r=Array.prototype.slice.call(r,0);//Array [ <img>, <img>, <img> ]
+			console.log(r);
+		
+		9》forms
+			获取所有的form对象，
+			返回HTMLCollection类数组的对象。
+			
+			r=document.forms;//HTMLCollection [ <form>, <form>, <form> ]
+			r=Array.prototype.slice.call(r,0);//Array [ <form>, <form>, <form> ]
+			console.log(r [0]);//<form action="">
+			console.log(r);
+			
+		10》links
+			获取文档中所有带href属性的<a>元素
+			
+			r=document.links;
+			console.log(r);//HTMLCollection [ <a>, <a> ]
+
+
+3、查找元素
+	1》getElementById()
+		参数为要获取的元素的id
+		找到元素返回该元素，
+		找不到返回null。
+		若页面中多个元素的id值相同，只返回文档中第一次出现过的元素；
+		若某个表单元素的name值等于指定的id，该元素也会被匹配。
+		
+	2》getElementsByTagName()
+		参数为要获取的标签名，
+		返回包含另个或多个元素的NodeList，
+		在HTML文档中该方法返回的是HTMLCollection对象，与NodeList非常类似。。
+		可以通过[index/name],item(),namedItem(name)访问。
+		
+		栗子：
+			<body>
+				<!--getElementByTagName()  -->
+				<dl id="drink" style="border:1px solid #ccc;padding:10px">
+					<dt>摩卡</dt>
+					<dd>热摩卡咖啡</dd>
+					<dd>卡布奇诺</dd>
+				
+					<dt>酸奶</dt>
+					<dd>北京老酸奶</dd>
+					<dd>红枣酸奶</dd>
+
+					<dt>果汁</dt>
+					<dd>柠檬果汁</dd>
+					<dd>鲜榨果汁</dd>
+				</dl>
+
+				<script>
+					// getElementByTagName()
+					var menu=document.getElementById("drink");
+					var drinks=document.getElementsByTagName('dt');
+				   console.log(menu);//<dl id="drink" style="border:1px solid #ccc;padding:10px">
+				   console.log(drinks);//HTMLCollection [ <dt>, <dt>, <dt> ]
+					// 遍历dt
+					 var arr=Array.prototype.slice.call(drinks,0);
+					console.log(arr);//Array [ <dt>, <dt>, <dt> ]
+					var arr1=[],s="";
+					arr.forEach(function(element) {
+						arr1.push(element.innerHTML);
+						 s=s+element.innerHTML+" ";
+						// console.log(element.innerHTML);//摩卡 酸奶 果汁
+					});
+					console.log(arr1);Array [ "摩卡", "酸奶", "果汁" ]
+					alert("提供的饮料种类有："+s);
+				</script>
+			</body>
+		
+	3》getElementsByName()
+		参数为元素的name，
+		返回符合条件的HTMLCollection
+		
+	4》getElementsByClassName()
+		参数为一个字符串，
+		可以由多个空格隔开的标识符组成。
+		当元素的class属性值包含所有指定的标识符时才匹配。
+		HTML元素的class属性值是一个以空格隔开的列表，可以为空或包含多个标识符。
+	
+	5》createAttributr():
+		创建属性名
+			var a=document.createAttributr('p');
+			a.id='p';
+			a.innerHTML='p标签';
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			
+			

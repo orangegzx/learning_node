@@ -1,0 +1,102 @@
+	
+	9.18 express
+	
+	1》安装
+		npm install express
+	
+	2》加载模块
+		var express=require('express');
+		
+	3》创建服务器对象，设置路由信息
+		var app=express();
+		app.get('/',function(req,resp){ res.send('Hello World!')});
+		
+	4》设置监听
+		app.listen(3000,function(){console.log((" 端口号为 3000 的服务器已经开启 ");});
+		
+		
+1、
+	index.js:
+	
+		var express=require('express');
+
+		// 创建express应用程序对象（服务器）
+		var app=express();
+
+		//输入http://localhost:8080显示welcome my app
+		app.get('/',function(req,resp){
+			resp.end("welcome my app");
+		});
+
+		//输入http://localhost:8080/student显示以下是学生信息：
+		// 用end student中文显示乱码，用send则不会
+		app.get('/student',function(req,resp){
+			console.log(req.query);//
+			resp.send("以下是学生信息：");
+		});
+
+		// post请求方式  需要html的form设置method=post才可以访问
+		app.post('/course',function(req,resp){
+			console.log(req.body);//undefined
+			resp.send("以下是课程信息：");
+		});
+
+		// 设置监听
+		app.listen(8080,function(){
+			console.log('8080端口已启动');
+		});
+		
+		
+	form.html: //点击后跳到http://127.0.1:8080/course
+		<!DOCTYPE html>
+			<html lang="en">
+			<head>
+				<meta charset="UTF-8">
+				<meta name="viewport" content="width=device-width, initial-scale=1.0">
+				<meta http-equiv="X-UA-Compatible" content="ie=edge">
+				<title>Document</title>
+			</head>
+			<body>
+				<form action="http://127.0.1:8080/course" method="post">
+					name:<input type="text"><br>
+					<input type="submit" value="submit">
+				</form>
+			</body>
+			</html>
+
+2、为express开发模板引擎
+	通过app.engine(ext, callback) 方法即可创建一个你自己的模板引擎。
+	ext 指的是文件扩展名、callback 是模板引擎的主函数，
+	接受文件路径、参数对象和回调函数作为其参数。
+
+	
+	栗子：访问网站首页就能看到由 “index.ntl” 文件渲染出来的 HTML 页面了。hey hello three！
+		var fs=require('fs');// 此模板引擎依赖 fs 模块
+
+		var express=require('express');
+		var app=express();// 创建express应用程序对象（服务器）
+
+		// 定义模板引擎 
+
+		app.engine('ntl',function(filePath,options,callback){
+			fs.readFile(filePath,function(err,content){
+				if(err){ return callback(new Error(err));}
+				 // 这是一个功能极其简单的模板引擎
+				var  rendered =content.toString().replace('#title#','<title>'+options.title+'</title>')
+				.replace('#message#','<h1>'+options.message+'</h1>');
+				return callback(null,rendered);
+			});
+		});
+		
+		app.set('views','./views');// 指定视图所在的位置
+		app.set('view engine','ntl');// 注册模板引擎
+		//接下来在 views 目录下创建一个名为 “index.ntl” 的模板文件
+
+		//创建路由
+		app.get('/',function(req,resp){
+			resp.render('index',{title:'hey',message:'hello,there'});
+		});
+
+		app.listen(8081,function(){
+			console.log('8081端口已启动');
+		});

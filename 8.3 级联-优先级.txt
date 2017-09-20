@@ -1,0 +1,16 @@
+﻿级联与继承
+
+	优先级：取决于importance、 specificity 、source order
+		thousands：
+				选择器包含在<style>标签中；
+				在元素style中直接声明的样式
+		hundreds：
+				id选择器
+		10：
+			类选择器、属性选择器、伪类选择器
+		1：
+			元素element选择器（标签元素）、伪元素选择器
+			如div p a权值都为1
+		！important>子后代选择器>组合选择器>id>class=伪类选择器=属性选择器>元素选择器=伪元素选择器
+	多个竞争选择器具有相同的重要性和特性值，代码顺序后面规则优先
+	

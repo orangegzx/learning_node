@@ -1,0 +1,86 @@
+1、相等与不相等
+	==  !=
+	相等：
+		返回一个Boolean值
+		先转为Number（），再比较
+		undefined==null//true undefined派生自null
+		对象相比较，比较的是内存地址；
+		NaN和任意类型==比较，始终返回false
+	全等：
+		只比较，不转换
+		先比较数据类型，如果数据类型相同，再比较数值，
+		如果数值相同，再比较内存地址。
+2、三目运算符
+	简化的条件语句
+	return m>n?m:n
+3、流程控制语句
+	alert：警告框
+	prompt：会话框
+4、逗号运算符
+	可以用逗号隔开也可以用分号隔开
+	var a=1;b=2;c=3;
+	var a=1,b=2,c=3;
+5、条件判断
+	if（判断条件）{
+		//true
+	}else
+	{
+		//false
+	}
+	
+	多分支：
+		if(){
+		}
+		else if(){
+		}
+		else{}
+6、switch
+	switch（判读变量/表达式）{
+		case value：
+	}
+7、for循环
+	前判断循环条件语句
+8、while（）{}
+	前判断循环语句
+	while（结束条件）{
+	//迭代条件：i++
+	//循环体
+	}
+9、do{}while（）
+	do{
+	循环体
+	迭代条件
+	}while（判断条件）
+	至少执行一次循环体
+10、增强for in循环
+	for in 遍历对象或者数组
+	var o={
+		name:"lisi",
+		age:12
+	}
+	for(var i in o){console.log（i）；}//name age
+11、lable语句：
+	使用label可以在代码中添加标签，以便将来使用
+		label：for(var =0;i<10;i++){
+			if(i==5){break:label;}
+		}
+12、特殊语句with（）{}
+	主要作用是将代码的作用域设置在一个特定的对象中，
+	定义with语句的主要目的是为了简化多次访问同一个对象的工作，
+	但是大量的使用with语句会导致性能下降，并且难以维护，所以不建议使用。
+	获取对象的属性的value
+	var a={
+            name:"lisa",
+            age:20,
+            adds:"江苏"
+        };
+	with(a){
+            document.write(name); 
+            document.write(age); 
+            document.write(adds);   
+        }//lisa 20 江苏	
+11、break：跳出当前所在循环体，不执行下次循环
+	continue：跳出当前循环体，继续下一次循环
+
+
+

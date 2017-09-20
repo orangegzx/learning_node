@@ -1,0 +1,80 @@
+	
+	Text类型（文本类型）
+
+1、文本节点
+
+	1》length
+		文本长度
+		
+		console.log(one.innerHTML.length);//3
+		
+	2》appendData（text）
+		追加文本
+		
+		 // 追加文本
+        var addtext=two.innerHTML;//声明要添加的文本
+        var r=one.childNodes;//获取节点的左右子节点，便于为某位置的文本添加新的文本
+        console.log(r);//NodeList [ #text "one" ]
+        var text=one.childNodes[0].appendData(addtext);//间接添加
+        var text=one.childNodes[0].appendData('text');//直接添加
+        console.log(one.innerHTML);//onetwotext  多次添加
+		console.log(one.childNodes)//NodeList [ #text "onetwotext" ]
+		
+	3》deleteDate（beginIndex，count）
+		删除文本
+		
+			// 删除文本
+			var text1=one.childNodes[0].deleteData(3,3);//从第三个位置的文字开始向后删除三个字
+			console.log(one.innerHTML)//onetext
+			console.log(one.childNodes)//NodeList [ #text "onetext" ]
+
+		
+	4》insertDate（beginIndex，text）
+		插入文本
+		
+			 // 插入文本
+			var insert="two";
+			var text2=one.childNodes[0].insertData(3,insert);
+			console.log(one.innerHTML)//onetwotext
+			console.log(one.childNodes)//NodeList [ #text "onetwotext" ]
+
+		
+		
+	5》replaceDate（beginIndex，count，text）
+		替换文本
+		
+		// 替换文本 replaceData（）
+        var replace=" replace ";
+        var text3=one.childNodes[0].replaceData(3,3,replace);
+        console.log(one.innerHTML)//one replace text
+        console.log(one.childNodes)//NodeList [ #text "one replace text" ]
+
+		
+		
+	6》splitText（beginIndex）
+		从beginIndex位置将当前文本节点分成两个文本节点
+		
+		// 切割文本为两个部分 splitText()
+        var text4=one.childNodes[0].splitText(3);
+        console.log(one.innerHTML)//one replace text
+        console.log(one.childNodes)//NodeList [ #text "one", #text " replace text" ]
+		
+			
+	7》document.createTextNode()
+		创建文本节点，参数为要插入节点的文本
+		
+		// 创建文本节点 document.createTextNode(),参数为要插入节点中的文本
+        var newNode=document.createTextNode(" (newnode) ");
+        var text5=one.insertBefore(newNode,one.childNodes[1]);//在one的文本的第二个节点前插入新的文本节点newnode
+        console.log(one.childNodes);//NodeList [ #text "one", #text " (newnode) ", #text " replace text" ]
+        console.log(one.innerHTML);//one (newnode)  replace text
+
+		
+		
+	8》substringData（beginIndex，count）
+		从beginIndex开始提取count个字符串
+
+		// 文本切割提取 substringData(beginIndex,count)
+        var text6=one.childNodes[1].substringData(2,3);
+        console.log(text6);//new
+    

@@ -1,0 +1,205 @@
+		
+		Element类型
+		
+1、HTML元素
+
+2、创建属性 如id class title class
+	document.createAttribute('属性名')；
+	
+
+
+3、属性方法
+
+	1》getAttribute()：取得自定义属性
+		只有一个参数--打算查询的属性名称
+		
+		不能通过document对象调用，只能通过元素节点调用。
+		 栗子：
+			 var one=document.getElementById('one');
+			 //getAttrinbute（"属性名"）
+			console.log(one.getAttribute("style"));//border:1px solid #ccc
+			console.log(one.getAttribute("id"));//one
+			
+			
+	2》setAttribute()：设置属性
+		只能通过元素节点对象调用函数；
+		两个参数；
+			1>要设置的属性名
+			2>对应的值
+			
+		若该值属性存在，则会覆盖当前值。
+		
+		该方法做出的修改不会反映在文档本身的源代码里，
+		这种表里不一的现象源自DOM的工作模式：先加载文档的静态内容、再以动态方式对他们进行刷新，
+		动态刷新不会影响文档的静态内容。
+		
+		也是DOM的威力与诱人之处：对页面内容的刷新不需要最终用户在他们的浏览器里执行，
+		页面刷新操作就可以实现。
+		
+		栗子：
+			 one.setAttribute("style","background-color:#ccc;border:2px solid #ccc");
+	
+	3》removeAttribute():
+		移除指定属性
+	
+		栗子：
+			// removeAttribute() 移除指定的属性
+			one.removeAttribute("style");
+			
+			
+4、attributes属性：
+	其中包含了一个NamedNodeMap，与NodeList类似。
+	
+	1》getNamedItem(name):返回nodeName属性等于name的节点
+	
+	2》removeNamedItem（name）：从列表中删除nodeName属性等于name的节点
+	
+	3》setNamedItem（name）：向列表中添加一个节点
+		比如为某个id添加一个class属性，闲杂styly设置class值，
+		然后再在js中新建一个属性class，再设置class的value为你再style设置的class属性名称，
+		节点.attributes.setAttribute( );
+	
+		<style>
+			.one{color: red;}
+		</style>
+		<script>
+			var one=document.getElementById('one')
+			// setNamedItem() 向NamedNodeMap列表中添加节点
+			var newattr=document.createAttribute('class');
+			newattr.value='one';
+			console.log(one.attributes.setNamedItem(newattr));
+		</script>
+	4》item（pos）：返回位于数字pos位置的节点。
+
+	栗子：	
+		// attributes属性
+        var arrts=one.attributes;
+        console.log(arrts);//NamedNodeMap [ id="one", style="border:1px solid #ccc" ]
+        
+		// getNamedItem()
+        console.log(arrts.getNamedItem('id'));//id="one"
+        console.log(arrts.getNamedItem('style'));//style="border:1px solid #ccc"
+       
+	   // removeNamedItem
+        console.log(arrts.removeNamedItem('style'));//style="border:1px solid #ccc"
+        
+		// item(pos) 返回位于数字pos位置的节点
+        console.log(arrts.item(0));//id="one"
+
+		
+5、创建元素 如ul，div
+	document.createElement()
+		一个参数：要创建的标签名；(该标签名在HTML中不区分大小写，在XML中区分)
+	
+		//新建元素
+		var e=document.createElement('div');
+		e.innerHTML="div";
+		e.id="div";//为元素节点添加id名
+		e.style.color="#ccc";//为元素节点添加color属性
+		outer.appendChild(e);//添加元素到outer元素中，也可添加文档中document.appendChild(e)
+		console.log(e);
+		console.log(outer.childNodes);//NodeList [ #text "", <div#one.one>, #text "", <div#two>, #text " ", <div#three>, #text "", <div#div> ]
+		console.log(outer.lastChild.attributes);//NamedNodeMap [ id="div", style="color: rgb(204, 204, 204);" ]
+
+		
+		// 为新建的元素添加属性
+		var attr=document.createAttribute('class');//新建属性
+		attr.value='add';
+		
+		//新建style属性
+		var style=document.createAttribute('style');
+		style.value="color:red;background-color:#ccc";
+		
+		e.attributes.setNamedItem(attr);//为新建元素添加新建的属性、
+		console.log(e.attributes);//NamedNodeMap [ id="div", style="color: red;", class="add" ]
+
+		
+6、Element中属性
+	1》children
+		返回一个元素（节点）的所有子元素
+		
+		// children
+        var result=outer.children;
+        console.log(result);//HTMLCollection [ <div#one>, <div#two>, <div#three> ]
+	
+	
+	
+	2》firstElementChild
+		返回元素节点的第一个子元素
+		
+		console.log(outer.firstElementChild);//<div id="one">
+		
+	3》lastElementChild
+		返回元素节点的最后一个子元素
+	
+		console.log(outer.lastElementChild);//<div id="three">
+		
+	4》previousSibling
+		返回上一个兄弟节点元素
+		console.log(outer.lastElementChild.previousSibling);//#text " "
+	
+	5》nextElementSibling
+		返回下一个兄弟元素节点
+		console.log(outer.firstElementChild.nextSibling);//#text " "
+	
+	6》childElementCount
+		返回子元素节点的长度==children.length
+		 console.log(outer.childElementCount);//3
+		 
+	7》child.length
+		返回子元素节点的长度。
+		children.length:返回元素节点的子元素节点的长度
+		console.log(result.length);//3
+		
+		
+7、元素内容
+
+	1》innerHTML
+		返回元素内容
+		不但可以修改DOM节点的文本内容，还可直接通过HTML片段修改DOM节点内部的子树。
+		 
+		 栗子：
+			 //innerHTML 返回元素内容
+			console.log(one.innerHTML);//one
+			one.innerHTML='one<span id="sp" style="color:blue">this is new text</span>';
+			var sp=document.getElementById('sp');//获取one中的span元素
+			console.log(sp.attributes);//NamedNodeMap [ id="sp", style="color:blue" ]
+		
+		
+		
+	2》innerText
+		不能像innerHTML属性一样设置任何标签。
+		ie浏览器
+		
+			 console.log(one.textContent);//onethis is new text
+	
+	3》textContent
+		返回所有的文本
+		IE<=9 不支持
+		非ie浏览器
+			console.log(one.innerText);//onethis is new text
+			
+	4》innerText与textContent区别
+		读取属性时，innerHTML不返回隐藏元素的文本，
+		而textContent返回所有的文本。
+		
+		
+		
+		
+		
+		
+		
+		
+	
+
+
+
+
+
+
+
+
+
+
+	
+		

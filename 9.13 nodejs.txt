@@ -1,0 +1,177 @@
+		9.13 node,js
+	
+	1、Node
+		1》nodejs node.js 是对一个JavaScript的解析器；
+		
+			vue：js框架
+				vue.min.js 与JavaScript.min.js一样使用
+			
+			jQuery 是对DOM的封装。
+		
+		
+		2》作为基础开发环境存在，可以运行各种js脚本。
+			目前在实际开发中主要用于开发基础环境，
+			用于模块管理，编译ec6代码，编译sass文件，运行各种js脚本。
+			vue
+			webpack
+			sass
+			less
+			...
+			
+		
+		3》引用了模块化机制（commonJS），改变了传统的js开发模式；
+			将每个js文件当做一个模块，一个模块可以调用另一个模块，
+			一模块中声明的变量只能在当前模块生效。
+		
+		
+		4》用于构建服务端程序
+			提供了很多内置模块；
+			fs		用于操作文件系统
+			http	用于开发服务器端程序（）
+		5》作为服务端开发语言存在，开发各种服务器端程序
+			http模块
+			
+		$node hello//Ubuntu中运行hello.js文件 进hello.js的文件夹中运行
+		$node //进入node编译环境
+		>ctrl+cc//退出node编译环境
+		
+		
+		5》栗子
+		 在WebUI中创建一个Node文件夹：
+			创建一个文件夹day913：在该文件夹中创建main.js，model1文件夹和model2文件夹，
+			model1中创建index.js,
+			model2中创建index.js;
+		$cd WebUI/
+		/WebUI$ mkdir Node/  //创建Node文件夹
+		/WebUI$cd Node
+		/WebUI/Node$ mkdir day913
+		/WebUI/Node$ cd day913
+		/WebUI/Node/day913$ touch main.js  //创建main.js
+		/WebUI/Node/day913$ mkdir model1  //创建model1文件夹
+		/WebUI/Node/day913$ mkdir model2  //创建model2文件夹
+		
+		/WebUI/Node/day913$ cd model1  //打开model2文件夹
+		/WebUI/Node/day913/model1$ touch index.js   //zai model1创建index.js文件夹
+		/WebUI/Node/day913/model1$ vim index.js   //编辑 model1中的index.js文件夹
+			
+		
+		/WebUI/Node/day913$ cd model2  //打开model2文件夹
+		/WebUI/Node/day913/model2$  touch index.js   //zai model2创建index.js文件夹
+		/WebUI/Node/day913/model2$ vim index.js   //编辑 model1中的index.js文件夹
+		 
+		/WebUI/Node/day913$ node main  //运行main.js文件  运行时书写可为main也可main.js。
+		 
+		 
+		 
+		 model1-index.js:
+				function sayHi()
+				{
+				console.log("嗨，你好");
+				}
+				module.exports.sayHi=sayHi;//返回一个函数
+				
+		model2-index.js:		
+				var sayHello=function(){
+					console.log("helloworld");
+				}
+				var a="this is a";
+				//module.exports.sayHello=sayHello;
+				//module.exports.a=a;
+				module.exports={
+				sayHello:sayHello,
+				a:a
+				}//返回一个对象 对象值为函数和a
+
+		main.js：
+			var model1=require('./model1/index.js');//接收model1的index.js的返回函数
+			var model2=require('./model2');        //接收model2的index.js的返回函数
+			var path=require('path');	
+
+			model1.sayHi();//调用函数   嗨，你好
+			model2.sayHello();//调用函数   helloworld
+			console.log(model2.a); // this is a
+			//console.log(a);报错 因为要调用a必须通过model2 a在model2返回数据中
+			//后缀名 输出a.txt的后缀名.txt
+			console.log(path.extname('/home/a.txt'));
+		
+		运行结果：
+			嗨，你好
+			helloworld
+			this is a
+			.txt
+
+	2、node的使用
+		1》安装
+			linux
+			window：环境变量的配置 (我的电脑－属性－高级设置－环境变量－path;node_home/bin）
+		
+		2》测试：
+			$node --version
+			
+		3》使用方式	
+			1>直接运行node脚本
+				$node hello//Ubuntu中运行hello
+			
+			2>进入ＲＥＰＬ环境
+				$ node
+				> var str = "hello"
+				undefined
+				> str
+				hello
+				
+				
+		4>模块化机制---称为CommonJS规范
+			该机制下，每个js文件都是一个模块，各自内部使用的变量名和变量函数互不冲突。
+			
+			将所有js文件或者目录当做一个单独的模块，模块之间相互调用，模块作用域是私有的
+			模块交互：
+				1》模块的定义
+				
+					使用require（’模块相对路径‘）引入模块；
+					只写模块名，Node会依次在内置模块，全局模块和当前模块查找js文件
+					
+					每个模块中都有一个标识当前模块的对象module
+					
+					1>参数可以为一个路径
+						var model1=require（‘./model1/index.js‘）；
+						node将按照这个指定的路径寻找该模块
+						
+					2>参数也可为一个模块名：
+						var model1=require（’model1‘）；
+						node按照以下顺序寻找该模块：
+							1》node核心模块寻找
+							2》当前目录的node_models中寻找
+							3》当前目录的上一级目录的node_model中寻找
+							...
+							
+							模块加载本质
+								实际上找到　当前目录中module1.js，并且执行它，将其module.exports对象返回
+								
+								function sayHello(){}
+								module.exports.sayHello = sayHello;
+
+								var module1 = require('./module1')
+											=>module.exports
+											=>{
+												sayHello:sayHello
+											}
+
+								function sayHello(){}
+								module.exports = sayHello;
+
+								var module1 = require('./module1')
+											=>module.exports
+											=>sayHello;
+											
+						3>模块对外暴露变量（函数也是变量）
+							module.exports=变量名
+						4>一个模块引用其他模块暴露的变量：
+							var ref=require（模块名module_name）；就拿到了引用模块的变量。
+							
+						
+	2、git版本控制工具（SVN）
+		github（git远程仓库）
+	
+	
+	
+	

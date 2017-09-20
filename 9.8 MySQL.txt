@@ -1,0 +1,100 @@
+﻿MySQL
+
+1、服务器的开启
+	1》查看mysql服务状态
+		service mysql status
+		
+	2》	打开mysql服务状态：
+		service mysql start
+		
+	3》关闭mysql服务状态：
+			service mysql stop				
+2、本地登录
+		$ mysql -uroot -p/mysql -h127.0.0.1 -uroot -p
+		enter password
+		$ root
+		退出mysql
+		quit \q
+	
+3、远程登录
+		登陆的用户必须支持远程登录，mysql.user host -uroot -p	
+		$mysql -hhost -uroot -p
+		或$ mysql -hIP -uroot -p
+		enter password
+		$root
+		默认情况下远程mysql服务不允许使用root用户进行
+		
+		
+		设置：
+			1》先在Ubuntu中本地登录
+			2》创建数据库
+				create database 数据库名
+			3》查看DBMS中所有的数据库实例
+				mysql>show databases
+			4》切换到mysql数据库中
+				mysql>use mysql
+				
+			5》查看mysql数据库中的所有表
+				mysql>show table
+				
+			6》查看user表中的所有的用户
+				mysql> select user,host from user;
+			7》查询user表结构
+				mysql> desc user
+				mysql> describe user
+			
+			8》更改root用户的host的列，使其能支持远程登录
+				mysql> update user set host='%' where user='root'
+			
+		用户管理：
+			1》创建用户
+				create user  ‘username’@‘host’  identified  by  ‘password’
+			
+			2》修改密码
+				alter user  ‘username’@‘host’  identified  by  ‘password’
+			3》删除用户
+				drop user ‘username’@‘host’
+			4》授权
+				grnat 权限 on 数据库.表 to 用户
+				如：grnat 权限 on database.table to curtomer
+				权限包括：
+	7 查询函数
+	·mysql
+		
+	
+
+
+
+8、Ubuntu中mysql本地连接出现的问题
+ 不能通过ip号本地登录只能通过127.0.0.1登录
+   1》在/etc/mysql中找到my.cnf
+ 	1>cd /usr/local
+	  2>cd etc/
+	3>cd etc/
+    	4>ls
+	5>cd mysql/
+	6>ls
+	7>vim my.cnf编辑
+	 找到bind-address= 127.0.0.1，在这句前面加上#进行注释
+	进入第二个路径为/etc/mysql/mysql.conf.d/中修改mysqld.cnf即可。
+    2》重新启动mysql服务
+	 $ service mysql restart
+    3》重新连接
+	  $ mysql -h192.168.136.128 -uroot -p
+
+		输入密码后如果出现ERROR 1130 (HY000): 
+		Host'192.168.136.128' is not allowed to connect to this 		        MySQL server
+		
+		1》进入mysql：~$ mysql -uroot -p
+		2》进入数据库：mysql>use mysql
+  		3》update user set host='ip地址或者%' where user=‘root’
+		（%：允许所有人连接，容易被人黑）
+	4》在mysql中继续输入：flush privileges；
+	  不管上述哪种方法，都要执行这步来更新数据用户权限，非常重要！！	
+	5》然后重新连接，就ok了。
+	
+9》能远程登录后不能本地登录，导致window的mysql不能远程登录和本地登录
+	在Ubuntu中找到mysql--》mysql/mysql.conf.d--sudo vim mysql.cnf进行编辑；
+	找到[mysqld]这项，在下面添加skip-grant-tables  即可解决；
+	重启mysql：service mysql restart
+10》window远程登录Ubuntu中mysql ，Ubuntu中的mysql要启动并登陆才能在window远程登录	
