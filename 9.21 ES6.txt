@@ -1,0 +1,79 @@
+
+		9.21 ES6
+	一、babel的使用	
+		1、安装babel
+			1》启动sinopia
+				$ sinopia
+				
+			2》全局安装babel-cli
+				$ npm install --global babel-cli
+				$ babel --version //查看版本
+			
+			3》本地安装
+				1>新创建文件夹 如es6
+					mkdir es6
+					
+				2>进入文件夹
+					cd es6
+				
+				3>初始化安装依赖
+					es6$ npm init -y 
+					
+				4> 安装设定转换规则
+					npm install --save-dev babel-preset-latest
+					或npm install --save-dev babel-preset-env
+					或npm install --save-dev babel-preset-es2015
+				
+				
+				5> 创建并编写es6转es5的配置文件.babelrc  ---放置在项目的根目录且json格式编写
+					vim .babelrc
+						{
+							"presets":["latest"]
+						}
+				
+				6>开始使用babel进行代码的转换
+					1>>新建hello.js 用es6编写
+						$vim hello.js
+							let arr=['lerry','terry','tom'];
+							arr.forEach((item,index)=>{
+								console.log(index,item);
+							});
+				
+					2>>运行程序
+						方式一 用node 运行 node hello.js
+						
+						方式二 babel转换，直接把转换后的结果打印到控制台上
+							$ babel hello.js //把es6代码转es5代码
+								//运行后显示
+								var arr = ['lerry', 'terry', 'tom'];
+								arr.forEach(function (item, index) {
+									console.log(index, item);
+								});
+								
+						方式三转出结果到其他文件
+							1》babel hello.js --out-file hello.out.js
+								当前目录或有一个hello.out.js文件 即转换后es5代码的文件
+								
+							2》当前目录创建 src dist
+								src：放置es6代码文件
+								dist：放置转换后的文件
+								
+								$ babel src --out-dir dist
+								more dist/hello.js //查看
+		2、本地使用babel
+			终端安装使用 $ npm run bulid
+			
+			1》本地安装babel-cli，babel-presert-latest
+				$ npm install babel-cli --save-dev
+				$ npm install babel-presert-latest --save
+				
+			2》添加配置文件 .babelrc
+				{
+					"presets":["latest"]
+				}
+			3》修改package.json文件
+				"scripts":{
+					"bulid":"babel src --out-dir dist"
+				}
+			
+			4》使用
