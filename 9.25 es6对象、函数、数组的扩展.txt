@@ -1,0 +1,401 @@
+	
+		
+		9.25 es6
+
+
+
+1. ES6
+    搭建环境
+    1) 安装babel-cli/babel-preset-latest
+        npm install --save-dev babel...
+		
+    2) 配置文件
+        .babelrc
+        {
+            "presets":["latest"]
+        }
+    3) npm 运行脚本
+        package.json
+        scripts:{
+            "build":"babel src --out-dir dist"
+        }
+    4) 执行转换（ES6->ES5）
+        npm run build
+        只转换语法，不转换ＡＰＩ
+        ()=>{
+
+        }
+
+        function(){
+
+        }
+
+        require('babel-polyfill');
+        Object.is();
+        Object.is();
+    
+
+ 2、  对象扩展
+	es5：
+		1> es5构造函数
+				var obj1 = new Object();
+				obj1.name = terry;
+				obj1.age = 12;
+				
+		2>  es5字面量
+				var name = "terry",
+				var age = 12;
+				var obj2 = {name:name,age:age};
+		
+		3>  var a = new Object();
+            a.toString();   //Object的原型中的方法
+				
+	ES6：
+		语法：
+            var name = "terry",
+            var age = 12;
+            var obj3 = {name,age,sayName(){}}   //对象{name:"terry",age:12};
+            var arr = [name,age]    //数组
+	
+		1》es6允许直接写入变量和函数，作为对象的属性和方法，即属性为变量名，属性值为变量值。
+			1>变量：
+				var foo='bar';
+				var a={foo};==>var a={foo:'bar'}
+			
+			2>方法简写：
+				var 0={medthod(){return "hello";}};
+				==>var o={medthod:function(){return "hello"}}
+				
+				方法name属性
+					函数的name属性，返回函数名
+					如：
+						const person = { sayName() { console.log('hello!'); }, };
+						person.sayName.name // "sayName" 
+					
+		2》es6允许字面量定义对象时，可以把表达式放在方括号内；
+			let propKey = 'foo'; 
+			let obj = { [propKey]: true, ['a' + 'bc']: 123 }; 
+		
+		3》Object.is(val1,val2)
+			先比较数据类型，再比较值
+			同值相等，类似===类似；
+			与===不同之处为：Objectis(NaN,NaN)//true es5的NaN===NaN为false
+							 Objectis(+0,-0)//false  es5的+0===-0为true
+							 
+		4》Object.assign(target,obj1,obj2);	
+			
+			用于对象的合并,	将obj1，obj2的属性合并到target中,并返回target；
+			
+			对于属性相同的的情况下，obj2的属性会覆盖obj1的属性；
+			不同属性进行合并
+			
+			浅复制么不是深复制，
+			源对象某个属性的值为对象，name目标对象拷贝得到的是这个对象的引用。
+			
+			
+			栗子：
+				1> var obj1 = {
+                     name:'terry'
+                 }
+                 var obj2 = {
+                     age :12
+                 }
+                var result = Object.assign({},obj1,obj2);
+				console.log(result);//{ name: 'lerry', age: 12, gender: '男' }
+				//Object.setPrototypeOf(obj,prototype)
+				//Object.getPrototypeOf(obj);
+				
+				2>源对象属性值为对象时
+					var obj1={
+						name:{name1:"aliy"}
+					};
+					var obj2={age:20}
+					var r=Object.assign({},obj1,obj2);
+					console.log(r);//{ name: { name1: 'aliy' }, age: 20 }
+					console.log(r.name);//{ name1: 'aliy' }
+					console.log(r.name.name1);//aliy
+		
+		
+				
+		5》克隆对象
+			function clone（origin）{
+				return  Object.assign({},origin);
+			}
+		
+		
+	
+		6》原型
+            对象能够调用构造函数原型中的方法以及原型链的方法
+            
+			1>	对象的原型由构造函数指定
+                var obj = new Object();    
+                var funs = {
+                    sayName(){
+
+                    },
+                    sayHi(){
+
+                    }
+                 }
+                //将obj的原型对象设置为funs
+                Object.setPrototypeOf(obj,funs);
+                Object.getPrototypeOf(obj);
+                obj.sayName();
+				Object.keys(obj)
+				Object.values(obj)
+				Object.entries(obj)
+			
+			2>	原型对象的设置 
+				语法： Object. setPrototypeOf(obj,prototype)
+				用来设置一个对象的prototype对象，返回参数本身
+				==>function（obj,prototype）{
+					obj._proto_=proto;
+					return obj;
+				}
+				
+				继承原型对象的方法
+				当想要继承某个对象的方法时，可以将当前对象的原型对象设置为想要继承方法的对象
+				
+				如：//将obj的原型对象设置为funs
+				Object.setPrototypeOf(obj,funs);
+				
+				
+			3>	Object.getPrototypeOf(obj);
+					读取一个对象的原型对象
+		
+			4>	Object.keys(obj)
+					返回一个数组，
+					成员是参数对象自身（不含继承）的所有可遍历的属性的键名，即属性名
+				
+			5>	Object.values(obj);
+					返回一个数组
+					成员是参数对象自身(不含继承)的所有可遍历的属性的键值，即属性值
+					
+			6>	Object.entries(obj)
+					返回一个数组，
+					成员是参数对象自身(不含继承)的所有可遍历的属性的键值对数组，即属性：属性值
+					
+			栗子：	
+					var obj3={
+						name:"girl",
+						age:22,
+						gender:"女"
+					};
+					console.log(Object.keys(obj3));//[ 'name', 'age', 'gender' ]
+					console.log(Object.values(obj3));//[ 'girl', 22, '女' ]
+					console.log(Object.entries(obj3));//[ [ 'name', 'girl' ], [ 'age', 22 ], [ 'gender', '女' ] ]
+			
+
+	三、函数的扩展			
+		1》函数参数的默认值
+			1. 直接在参数中定义
+            2. 解构
+            length  形参的个数
+            name    函数名
+			
+			 通常情况下，定义了默认值的参数，应该是函数的尾参数. 
+			 函数的 length 属性，将返回没有指定默认值的参数个数.
+			
+			栗子：	
+				function log(x,y="world"){
+					console.log(x,y);
+				}
+				log();//undefined world
+				log(2);//2 'world'
+				log("lerry",3);//lerry 3
+				console.log(log.length);//1
+				console.log(log.name);//log
+			
+		2》与解构赋值结合使用		
+			
+		3》rest参数  参数不限制个数
+			用于获取函数的多余参数，
+			类似于解构赋值的集合解构
+			rest 参数搭配的变量是一个数组，该变量将多余的参数放入数组中 。
+			 
+			栗子：	
+				function add(...vals){//vals解析为数组
+					let sum=0;
+					console.log(vals);//[2,3,5,6]
+					console.log(...vals);//2 3 5 6]
+					for(var v of vals){
+						sum+=v;
+					}
+					return sum;
+				}
+				console.log(add(2,3,5,6));//16
+
+			
+			
+		3》箭头函数
+			1>	语法：()=>{}  
+				   小括号放形参
+				   大括号放方法体一般用于回调，this的取值取决于调用方式，在node 没有window(undefined取代)
+					不要使用箭头函数作为构造函数
+					
+					var f=name=>name;==>var f=function(name){return name}
+				
+				如果箭头函数不需要参数或需要多个参数，就使用一个圆括号()代表参数部分。  
+				如果箭头函数的代码块部分多于一条语句，就要使用大括号将它们括起来，并且使用 return 语句返回。
+						
+			
+			栗子：	
+				1>	var sayName=name=>"hello"+name;
+					console.log(sayName("prettygirl"));//helloprettygirl
+				
+				2>	let sayHello=(name)=>{
+						var result="hello,"+name;
+						console.log(result);
+					}
+					sayHello("terry");//hello,terry
+
+				3>	var arr=['terrt','larry','tom','javk'];
+					arr.forEach((item)=>{console.log(item)});//terrt,larry,tom,javk
+			
+			
+			2> 	this
+				箭头函数里面没有自己的this，而引用外层的this
+				不能作为构造函数
+				没有内部属性arguments
+				
+				栗子：	
+					function callMethod(cb){cb.call(this)}
+					callMethod(function(){
+						console.log(this);//undefinded 因为指向Windows 当前环境为Linux
+					}
+		
+	四、数组扩展
+		1》扩展运算符
+			1> 好比函数rest参数的逆运算，将一个数组转换为用逗号分隔的参数系列
+			
+			 栗子
+				1>	function test(...vals){
+						console.log(vals);//[1,2,3,4]
+						console.log(...vals);//1 2 3 4
+						
+					}
+					test(1,2,3,4);
+					
+				2>	console.log(...[1,2,3]);//1 2 3
+					
+				3>	function test1(a,...b){
+						console.log(a);//1
+						console.log(b);//[2,3,4]
+					}
+					test1(1,2,3,4);
+
+				
+				4>	function test2(a,b,c){
+						console.log(a);
+						console.log(b);
+						console.log(c);
+					}
+					var arr=[1,2,3];//1 //2 //3
+					var arr=[1,2];//1 //2 //undefined
+					test2(...arr);
+				
+			2>	函数的调用：
+				
+				function add(x,y){return x+y;}
+				console.log(add(...[1,3]));//4
+				
+				console.log(Math.max(...[14,5,20]));//20
+		
+			3>   将字符串转换为数组
+				console.log(...["hello"]);//hello
+		
+							
+		2》Array.from()
+			1>	将两类对象转为真正的数组：将类数组对象和可遍历Iterator接口的对象。
+				let arrayLike = { '0': 'a', '1': 'b', '2': 'c', length: 3 }; 
+				let arr2 = Array.from(arrayLike); // ['a', 'b', 'c'] 
+			
+			2>	只要是部署了iterator接口的数据结构，Array.from都能将其转为数组。
+			
+				Array.from("hello");//['h','e','l','l','o']
+				
+				let namesSet = new Set(['a', 'b']) 
+				Array.from(namesSet) // ['a', 'b']
+				
+				let arrayLike = { '0': 'a', '1': 'b', '2': 'c', length: 3 };
+				console.log(Array.from(arrayLike));//['a','b','c']
+			
+			3>
+			
+		3》Array.of()
+			将一组值转换为数组，创建数组
+			主要是弥补数组构造函数Array()的不足，
+			因为参数个数不同，会导致Array()的行为
+			
+			如：Array.of(1,3,4);    //[1,3,4]
+				console.log(Array.of(true));//[true]
+			
+			
+		4》数组实例的find(),findIndex()
+			1>	arr.find()
+				用法与forEach类似，参数为回调函数，回调函数有三个参数：item，index，arr
+				返回值为回调函数返回true的第一个回到函数。当前遍历的值返回。
+				没有找到返回undefined
+				
+				var arr1=[5,2,63,20,12,43];
+				console.log(arr1.find((item)=>{return item>10;}));//60
+				console.log(arr1.find((item)=>{return item<2;}));//undefined
+				
+				
+			2>arr.findIndex()
+				与find（）方法类似，返回第一个成员的位置，即返回元素的索引；
+				没有找到，返回-1
+				
+				console.log(arr1.findIndex((item)=>{return item>10;}));//2
+				console.log(arr1.findIndex((item)=>{return item<2;}));//-1
+			
+			
+		5》fill()  使用给定值，填充一个数组
+			
+			声明的数组为空数组时，不能填充，因为没有声明长度，
+			要使用声明的数组进行填充，必须使用构造函数创建数组来声明数组的长度，
+			或者可以直接用数组来填充
+			
+			ar arr2=new Array(3);
+			console.log(arr2.fill(7));//[7,7,7]
+			
+			var arr3=[];
+			console.log(arr3.fill(1));//[]
+			
+			console.log(['a','b'].fill(2));//[2,2]
+			
+			
+		6》entries(),keys()，values()
+			三种方法都是返回迭代器对象，
+			迭代器对象有一个next()方法，该方法返回{value:done},value为遍历的内容，done是是否遍历结束
+			可使用for...of来遍历迭代器
+			
+			var arr4=[1,2,3,4,5,6];
+			for(let v of arr4.keys()){
+				console.log(v);//0 1 2 3 4 5
+			}
+			console.log(...arr4.keys());//0 1 2 3 4 5
+			
+			for(let [index,item] of arr4.entries()){
+				console.log(index,item);//0 1 //1 2 //2 3 //3 4 //4 5 //5 6
+			}
+			
+			
+		7》includes()  返回一个布尔值 表示某个数组是否包含给定的值
+			与字符串的includes方法类似。
+			
+			使用Object.is()进行判定，即全等===比较
+		
+			var arr4=[1,2,3,4,5,6];
+			
+			
+			
+			console.log(arr4.includes(2));//true
+			console.log(arr4.includes(10));//false
+    
+		
+
+
+
+
+

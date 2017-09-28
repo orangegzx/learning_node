@@ -1,4 +1,4 @@
-1、元素垂直水平居中方法
+﻿1、元素垂直水平居中方法
 	（1）父元素：position:relative;
 		子元素：position:absolute;
 				left:0; right:0; top:0; bottom:0;
@@ -50,26 +50,37 @@
 		给子级添加display：inline-block/table-cell/table-caption。
 		给子级margin属性改为父级的padding属性
 4、padding设置后会影响盒子模型的宽高，margin则不会影响
+
 5、只要是可以装内容的元素都有盒子模型和边框样式
+
 6、position：absolute;绝对定位
 	参照物：有定位元素的上级元素，从内向外查找元素，看是否有定位属性的元素，
 	如果有定位属性的元素就根据最近的元素来定位，
-	如果没有找到有定位元素属性的元素，默认根据body来定位		
+	如果没有找到有定位元素属性的元素，默认根据body来定位	
+	
 7、行内元素盒子模型，padding  margin-left 和margin-right有用，
 	而margin-top和margin-bottom没有作用，只有将行内元素转换成块级元素时才可以用。	
 	即在水平方向设置padding-left/right、margin-left/right有效，
 	在垂直方向设置padding-top/bottom、margin-top/bottom无效。
+
 8、a标签中嵌套img时，img默认会有1px的border，需要在CSS中加入a img {border:none;}。
+
 9、a标签中嵌套img时，必须有a{dispaly:block;}否则在IE6下将影响布局
+
 	（即在图片下方多出一部分空白）。
 10、在进行position定位时，如果是标签嵌套时定位必须将父标签里的浮动全部清除，
     子标签的浮动后的CSS样式才能在IE6下被读出。
+
 11、未使用float浮动时，内层标签的margin值撑不开外层标签，
-	而内层标签的padding值则可以撑开。	
-12、标签嵌套时，如果父子标签均浮动，子标签就不用清除浮动。		
+	而内层标签的padding值则可以撑开。
+	
+12、标签嵌套时，如果父子标签均浮动，子标签就不用清除浮动。
+		
 13、logo外层需要用H1标签嵌套。
+
 14、margin-left/righ产生双倍间距解决：
 		display：inline；
+
 15、单行显示文本，溢出部分省略号表示：
 	    overflow：hidden；text-overflow：ellipsis；white-space；
 	多行显示文本，溢出部分省略号表示：

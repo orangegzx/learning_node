@@ -1,0 +1,304 @@
+﻿
+		9.21 ES6
+		
+	一、babel的使用	
+		1、安装babel 全局使用
+			1》启动sinopia
+				$ sinopia
+				
+			2》全局安装babel-cli
+				$ npm install --global babel-cli
+				$ babel --version //查看版本
+			
+			3》本地安装
+				1>新创建文件夹 如es6
+					mkdir es6
+					
+				2>进入文件夹
+					cd es6
+				
+				3>初始化安装依赖
+					es6$ npm init -y 
+					
+				*4> 安装设定转换规则
+					npm install --save-dev babel-preset-latest//最新转码规则
+					或npm install --save-dev babel-preset-env //不会过时的规则 
+					或npm install --save-dev babel-preset-es2015 //es2015转码规则
+				
+				
+				5> 创建并编写es6转es5的配置文件.babelrc  ---放置在项目的根目录且json格式编写
+					vim .babelrc
+						{
+							"presets":["latest"]
+						}
+				
+				6>开始使用babel进行代码的转换
+					1>>新建hello.js 用es6编写
+						$vim hello.js
+							let arr=['lerry','terry','tom'];
+							arr.forEach((item,index)=>{
+								console.log(index,item);
+							});
+				
+					2>>运行程序
+						方式一 用node 运行 node hello.js
+						
+						方式二 babel转换，直接把转换后的结果打印到控制台上
+							$ babel hello.js //把es6代码转es5代码
+								//运行后显示
+								var arr = ['lerry', 'terry', 'tom'];
+								arr.forEach(function (item, index) {
+									console.log(index, item);
+								});
+								
+						方式三转出结果到其他文件
+							1》babel hello.js --out-file hello.out.js
+								当前目录或有一个hello.out.js文件 即转换后es5代码的文件
+								
+							2》当前目录创建 src dist
+								src：放置es6代码文件
+								dist：放置转换后的文件
+								
+								$ babel src --out-dir dist
+								more dist/hello.js //查看
+		2、本地使用babel
+			终端安装使用 $ npm run bulid
+			1》先卸载全局安装
+				npm uninstall --global babel-cli
+				
+			1》本地安装babel-cli，babel-presert-latest ，程序中安装即项目根目录中安装
+				$npm init -y//先初始化，package.json文件
+				$ npm install babel-cli --save-dev//项目根目录下安装
+				
+				//$ npm install babel-presert-latest --save-dev
+				
+			2》添加配置文件 .babelrc 项目根目录下
+				{
+					"presets":["latest"]
+				}
+			3》修改package.json文件 //设置文件转换规则和目录  把src中的es5格式的js文件转换es6格式到dist文件夹中
+				"scripts":{
+					"build":"babel src --out-dir dist"
+				}
+			
+			4》使用
+				在项目根目录下：$ npm run build //把src中为js（es6）文件转换到dist（es5）文件夹中
+				node dist/xxx.js //运行文件
+				
+				
+		3、babel-polyfill
+			只转换js句法，不转换新的API。
+			
+			例来说， ES6 在 Array对象上新增了 Array.from 方法。 Babel 就不会转码这个方法 。
+			如果想让这个方法运行，必须使用 babel-polyfill ，为当前环境提供一个垫片 
+			
+			1》安装  js文件中引用并且使用
+				$ npm install --save babel-polyfill 
+			
+			2》js文件中引用并且使用
+				import 'babel-polyfill'; //  或者 require('babel-polyfill');
+				
+				
+	二、let命令
+			ES6 新增了 let 命令，用来声明变量。它的用法类似于 var ，但是也存在新的特性。
+			1》新的特性：
+				1> let 所声明的变量，只在 let 命令所在的代码块内有效。----即块级作用域 
+					{ let a = 10; var b = 1; } 
+					console.log(a);//a not undefined
+					console.log(b);//b=1;
+					转为es5后运行 ：//a not undefined
+				
+				
+				2>不允许重复声明。 
+					function () {
+						let a = 10;
+						let a = 1; 
+					} //  报错
+				
+				
+				3>不存在变量提升。 
+					console.log(bar); 
+					let bar = 2; 
+					
+					npm run build：//报错 ReferenceError  不能转为es5
+				
+				4> 暂时性死区。 
+					在代码块内，使用 let 命令声明变量之前，该变量都是不可用的。
+					var tmp = 123;
+					if (true) {
+						tmp = 'abc';//报错 ReferenceError 
+						let tmp; 
+					}
+				
+				
+	三、const的使用	 
+			const 声明一个只读的常量。一旦声明，常量的值就不能改变
+			
+			1》 const 声明的变量不得改变值，
+				const 一旦声明变量，就必须立即初始化，不能留到以后赋值。 
+				
+				如 const foo； //报错
+			
+			2》块级作用域	
+				只在声明所在的块级作用域内有效
+			
+			3》暂时性死区
+				在代码块内，使用let命令声明变量之前，该变量都是不可用的。
+				即先使用后声明会暂时性死区
+				
+			4》不允许重复声明
+				var message = "Hello!"; let age = 25; 
+				//  以下两行都会报错
+				const message = "Goodbye!"; 
+				const age = 30;
+	四、解构（变量）赋值
+		es6允许按照一定模式，从数组和对象中提取值，对变量进行赋值；---解构
+		如 let[a,b,c]=[1,2,3]
+		
+		只要等号两边的模式相同，左边的变量就会被赋予对 应的值。
+		
+		如果解构不成功，变量的值就等于 undefined 。
+		即左边的变量个数>右边的值个数，把右边的值赋给左边完后，左边未赋值的变量为undefined。
+		
+		另一种情况是不完全解构，即 等号左边的模式，只匹配一部分的等号右边的数组;
+		这种情况下，解构依然可以成功 
+		
+		
+		1》 数组的解构赋值 
+			let [a, b, c] = [1, 2, 3]; 
+			
+			1>不完全解构
+				let [a, [b], d] = [1, [2, 3], 4]; //a = 1; b = 2; d = 4 
+
+			2>集合解构 
+				let [head, ...tail] = [1, 2, 3, 4]; //head = 1; tail = [2, 3, 4] 
+				
+			3> 默认值（当匹配值严格等于 undefined 时，默认值生效） 
+				let [x, y = 'b'] = ['a']; // x='a', y='b’ 
+			
+			4> 默认值也可以为函数 
+				function f() { console.log('aaa'); } 
+				let [x = f()] = [1]; 
+	
+	
+		2》对象的解构赋值 
+		
+			1>对象的属性没有次序，变量必须与属性同名，才能取到正确的值
+				let { foo, bar } = { foo: “aaa”, bar: “bbb” }; // foo = "aaa”; bar = "bbb” 
+		
+			2> 如果变量名与属性名不一致，必须写成下面这样。 
+				var { foo: baz } = { foo: 'aaa', bar: 'bbb' }; //baz = "aaa”
+			
+			3> 这实际上说明，对象的解构赋值是下面形式的简写。 
+				let { foo: foo, bar: bar } = { foo: "aaa", bar: "bbb" }; 
+		
+			4> 嵌套解构 
+				let obj = { p: [ 'Hello', { y: 'World' } ] }; 
+				let { p: [x, { y }] } = obj; //x = "Hello”; y = "World” 
+		
+			5>默认值 （默认值生效的条件是，对象的属性值严格等于 undefined ） 
+				var {x: y = 3} = {};  //y= 3
+		
+		
+		
+		3》 字符串的解构赋值 
+		
+			1> 解构时，字符串被转换成了一个类似数组的对象。 
+				const [a, b, c, d, e] = ‘hello’; //a=h;b=e;c=l;d=l;e=o 
+
+			2>也可以对数组的属性解构 
+				let {length : len} = ‘hello’; //len = 5 
+		
+		
+		4》数值和布尔值解构赋值 
+		
+			解构时，如果等号右边是数值和布尔值，则会先转为对象 
+			
+				let {toString: s} = 123; //s === Number.prototype.toString true 
+				let {toString: s} = true; //s === Boolean.prototype.toString true
+				
+				如：
+					
+					
+					function test（）{//Number类型
+						let {toString: s} = 123;
+						console.log(s);  //[Function: toString]
+						console.log(s == Number.prototype.toString);  //true
+						console.log(s === Number.prototype.toString);  //true
+						
+					}
+					
+					
+					function test4(){ //Boolean类型
+						let {toString:s}=true;
+						console.log(s);  [Function: toString]
+						console.log(s==Boolean.prototype.toString); //true
+						console.log(s===Boolean.prototype.toString); //true
+					}
+					test4();
+			
+		
+		
+		5》函数参数的解构赋值
+			1>基本语法
+				function add([x,y]){return x+y;}
+				add([1,2]);
+				
+			2>默认值
+				function move({x=0,y=0}={}){ return [x,y]}
+				move({x:3,y:8}); //[3,8]
+				move({x:3}); //[3,0]
+				move({});    //[0,0]
+				move();      //[0,0]
+
+		
+		6》解构赋值的常见用途
+			1>交换变量的值
+				let x=1；let y=2；
+				[x,y]=[y,x];
+			
+			2>从函数返回多少个值
+				function example(){return [1,2,3];}
+				let [a,b,c]=example();
+				console.log(a,b,c);//1 2 3
+				
+			3>提取json数据
+				let jsonData={id:1,status:"ok",data:[3,4]};
+				let {id,status,data:number}=jsonData；
+				console.log(id+status+data+number);// 1 ok 3,4
+				
+			4>输入模块的指定方法
+				function test7(){
+					const {SourceMapConsumer,SourceNode}=require("source-map");
+					console.log(SourceMapConsumer,SourceNode);
+				}
+				test7();
+				//{ [Function: SourceMapConsumer]
+					  fromSourceMap: [Function],
+					  GENERATED_ORDER: 1,
+					  ORIGINAL_ORDER: 2,
+					  GREATEST_LOWER_BOUND: 1,
+					  LEAST_UPPER_BOUND: 2 } { [Function: SourceNode]
+					  fromStringWithSourceMap: [Function: SourceNode_fromStringWithSourceMap]
+				 }
+
+			
+			5>函数参数的默认值
+				jQuery.ajax=function(url,{async=true,cache=true,global=true,
+					beforeSend=function(){},complete=function(){},
+				}){};
+				
+			6>遍历map解构
+				var map=new Map();
+				map.set('first','hello');
+				map.set('second','world');
+				for(let [key,value] of map ){
+					console.log(key+ "is"+value);//firstishello secondisworld
+				};
+
+
+
+			
+				
+				
+				

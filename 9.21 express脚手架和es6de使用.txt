@@ -1,0 +1,120 @@
+
+
+	一、express脚手架
+		通过应用生成器工具express可快速创建一个应用的骨架
+		
+		1》安装：
+			$ npm install express-generator –g 
+	
+		2》生成项目
+			在某个文件夹下 express myapp ，就创建了一个myapp的文件夹
+		3》安装所有依赖
+			cd myapp
+			npm install
+		
+		4》启动项目
+			npm run start
+			后台文件更新时需要重启启动项目（后台文件在myapp/routes文件夹下）
+			前端文件更新不需重新启动项目（前端文件在myapp/publish文件夹下）
+		
+		5》开始写代码
+		
+		6》在routes创建一个studentsRoutes.js （db是数据库查询的模块）
+			用于托管静态文件目录的子文件路径
+			在该文件中引入数据库的student查询模块
+			创建路由：login  findAll路径，显示students的信息
+			
+		7》在app.js中
+		
+			引用模块studentsRoutes
+				var studentsRouter=require('./routes/studentsRouter');
+			
+			创建托管静态文件的目录
+				app.use('/students', studentsRouter);
+			
+		8》在publish创建HTML文件用于显示后台传输的数据
+			用ajax异步处理来显示
+			
+			
+	二、es6的使用
+		本地使用babel
+			终端安装使用 $ npm run bulid
+			1》先卸载全局安装
+				npm uninstall --global babel-cli
+				
+			1》本地安装babel-cli，babel-presert-latest ，程序中安装即项目根目录中安装
+				$npm init -y//先初始化，package.json文件
+				$ npm install babel-cli --save-dev//项目根目录下安装
+				
+				//$ npm install babel-presert-latest --save-dev
+				
+			2》添加配置文件 .babelrc 项目根目录下
+				{
+					"presets":["latest"]
+				}
+			3》修改package.json文件 //设置文件转换规则和目录  把src中的es5格式的js文件转换es6格式到dist文件夹中
+				"scripts":{
+					"build":"babel src --out-dir dist"
+				}
+			
+			4》使用
+				在项目根目录下：$ npm run build //把src中为js（es6）文件转换到dist（es5）文件夹中
+				node dist/xxx.js //运行文件
+				
+				
+				
+	三、分别使用http模块和express写出获取get请求和post请求的方法及其参数
+		1》express---get
+			var express=require(“express”);
+			var app=express();
+			app.get(“/”,function(req,resp){
+				resp.send(“hello world”);
+			});
+			app.listen(3000,function(){console.log(“端口为3000的端口号已开启”);});
+
+		2》express--post
+			var express=require(“express”);
+			var app=express();
+			var bodyParser=require('body-parser');//post
+			app.use(bodyParser.urlencoded({extened:true}))
+			app.post('/course',function(req,resp){
+					console.log(req.body);
+					resp.send("以下是课程信息：");
+			});
+			// 设置监听
+			app.listen(8080,function(){
+			console.log('8080端口已启动');});
+			
+		3》http---get
+			var http=require(“http”);
+			var server=http.createServer(function(req,resp){
+				resp.writeHead(200,'ok',{"Content-Type":'text/plain;charset=utf-8'});
+				resp.end("hello");
+			});
+			server.listen(8080,function(){
+				console.log(“端口号为8080的端口号已开启”);
+			});
+
+
+		4》http—post
+			var http=require('http');
+			var querystring=require('querystring');
+			var  util=require('util');
+			var server=http.createServer(function(req,resp){
+			
+				var post="";//  定义了一个post变量，用于暂存请求体的信息
+				
+				// 通过req的data事件监听函数，每当接受到请求体的数据，就累加到post变量中
+				req.on('data',function(chunk){
+					post+=chunk;
+				});
+				 // 在end事件触发后，通过querystring.parse将post解析为真正的POST请求格式，然后向客户端返回。
+				req.on('end',function(){
+					post=querystring.parse(post);
+					resp.end(util.inspect(post));
+				});
+				
+			});
+			server.listen(8080,function(){
+				console.log("8080...");
+			})

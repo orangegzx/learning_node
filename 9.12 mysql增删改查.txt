@@ -1,4 +1,4 @@
-
+﻿
 	9.12 mysql增删改查
 	
 
@@ -212,7 +212,7 @@
 
 			3》右外连接查询：right outer join	
 				select teacher.name,class.name 
-				from teacher  left outer join class 
+				from teacher  right outer join class 
 				on teacher.id=class.teacher_id;
 					
 					

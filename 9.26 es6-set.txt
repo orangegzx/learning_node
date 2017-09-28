@@ -1,0 +1,130 @@
+
+		9.26 es6-set
+		
+	4、Set
+		类似数组，但是set集合中的元素是不可以重复的。
+		一组键值对组合，但是不存储value。
+		由于key不能重复，所以Set中没有重复的key。
+		
+		创建Set：需要提供一个Array作为输入，或者直接创建一个空的Set。
+			var s1=new Set();//空Set
+			var s=new Set([1,2,3,]);
+			重复的元素在Set中自动被过滤。
+		
+		1》创建实例
+			var set=new Set();
+			
+		2》添加元素
+			set.add(1);
+			
+		3》删除元素：
+				delete（key）
+			
+		4》获取set集合大小
+			set.size
+		
+		5》遍历
+			for(let v of set){
+				console.log(v);
+			}
+		
+		6》数组去重
+			1> es6：
+				[...new Set(arr)]//扩展运算符... 将将一个数组转换为用逗号分隔的参数系列
+				
+				Array.from(new Set(arr);
+				
+			2> es5
+				function quchong(arr){
+					var arr1=[];//存放去重的数组
+					for(var i=0;i<arr.length;i++){
+						if(arr1[arr1.length-1]!==arr[i]){
+							arr1.push(arr[i]);
+						}
+					}
+					return arr;
+				}
+				
+		
+	5、Map
+		Map是一组键值对的结构，具有极快的查找功能。比如查询某同学的成绩
+		
+		**一个key只能对应一个value，多次对一个key放入value，
+		  后面的值会把前面的值冲掉。
+		  
+		1》初始化Map需要一个二维数组，或者直接初始化一个空Map：
+			var m=new Map（）；//空Map
+			var m=new Map（[[key,value],[key,value],[key,value]]）；
+			
+		2》添加新的key-value：
+			m.set(属性名,属性值);
+			key的取值可位任意类型；
+			value的取值可为任意类型
+			
+		3》是否存在key：
+			m.has(’属性名‘);
+			
+		4》查看value，通过key查看value：
+			m.get('属性名key');
+			
+		5》通过属性名key删除：
+			m.delete('属性名key');
+		
+		6》清除clear
+			get(key);
+			
+		7》遍历
+			for(let [index,val] of m){
+				console.log(index,val);
+			}
+		
+		8》将对象转化为map结构
+			
+			var map=([key,val],[key,val],[key,val]);
+			
+			var map=new Map（Object.entries(obj)）；
+			
+	6、promise	
+		
+		function getJSON(url,handler){
+			var request = new XMLHttpRequest();
+			request.open("get",url,true);
+			request.send()
+			request.onreadystatechange = function(){
+				if(){
+					var json = request.requestText;
+					handler.call(this,json);
+				}
+			}
+		}
+		getJSON("users/findAll",function(data){
+			console.log(data);
+		});
+	
+	
+		
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+			
+			
